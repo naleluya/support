@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Technician;
+use App\Secretarie;
+use App\Direction;
+use App\Unit;
+
 class RegistroController extends Controller
 {
     /**
@@ -13,7 +18,15 @@ class RegistroController extends Controller
      */
     public function index()
     {
-        return view("registro.soporte");
+        $tecnico = Technician::all();
+        $secretaria = Secretarie::all();
+        $direccion = Direction::all();
+        $unidad = Unit::all();
+        return view("registro.soporte", 
+                    ['tecnicos' => $tecnico], 
+                    ['secretarias' => $secretaria], 
+                    ['direcciones' => $direccion], 
+                    ['unidades' => $unidad]);
     }
 
     /**

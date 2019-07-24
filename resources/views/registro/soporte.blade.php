@@ -24,24 +24,22 @@
                             <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="tecnico">Tecnico</label>
-                                        <select class="form-control" name="tecnico" id="tecnico">
-                                            <option>option 1</option>
-                                            <option>option 2</option>
-                                            <option>option 3</option>
-                                            <option>option 4</option>
-                                            <option>option 5</option>
+                                        <select class="form-control" name="tecnico" id="tecnico" required>
+                                            <option value="">Seleccione un tecnico...</option>
+                                            @foreach ($tecnicos as $tec)
+                                                <option value="{{ $tec->id }}">{{ $tec->tec_nombres }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Secretaría</label>
-                                <select class="form-control">
-                                    <option>option 1</option>
-                                    <option>option 2</option>
-                                    <option>option 3</option>
-                                    <option>option 4</option>
-                                    <option>option 5</option>
+                                <select class="form-control">                                    
+                                    <option>Seleccione secretaría</option>
+                                    @foreach ($secretarias as $sec)
+                                        <option value="{{ $sec->id }}">{{ $sec->sec_name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -49,11 +47,10 @@
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Dirección</label>
                                 <select class="form-control">
-                                    <option>option 1</option>
-                                    <option>option 2</option>
-                                    <option>option 3</option>
-                                    <option>option 4</option>
-                                    <option>option 5</option>
+                                    <option>Seleccione dirección</option>
+                                    @foreach ($direcciones as $dir)
+                                        
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -61,11 +58,8 @@
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Unidad</label>
                                 <select class="form-control">
-                                    <option>option 1</option>
-                                    <option>option 2</option>
-                                    <option>option 3</option>
-                                    <option>option 4</option>
-                                    <option>option 5</option>
+                                        <option>Seleccione unidad</option>
+                                        
                                 </select>
                             </div>
                         </div>
@@ -117,7 +111,7 @@
                     <div class="row">
                         <div class="col-md-3">
                             <label>Servicio</label>
-                            <select name="provincia" id="provincia" onchange="cargarPueblos();" class="form-control">
+                            <select name="servicio" id="servicio" onchange="cargarPueblos();" class="form-control">
                                     <option value="">Seleccione un Servicio...</option>
                             </select>
                         </div>
@@ -128,21 +122,15 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Trabajo realizado</label>
-                                <select name="pueblo" id="pueblo" class="form-control">
+                                <select name="tipo_servicio" id="tipo_servicio" class="form-control">
                                         <option value="">Seleccione un tipo de servicio...</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="exampleInputPassword1">Activo</label>
-                                <select class="form-control">
-                                    <option>option 1</option>
-                                    <option>option 2</option>
-                                    <option>option 3</option>
-                                    <option>option 4</option>
-                                    <option>option 5</option>
-                                </select>
+                                <label for="exampleInputPassword1">Cod GAMEA (periférico)</label>
+                                <input type="text" class="form-control pull-right" id="datepicker">
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -155,11 +143,11 @@
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Estado</label>
                                 <select class="form-control">
-                                    <option>option 1</option>
-                                    <option>option 2</option>
-                                    <option>option 3</option>
-                                    <option>option 4</option>
-                                    <option>option 5</option>
+                                    <option>Seleccione estado...</option>
+                                    <option value="Reparado">Reparado</option>
+                                    <option value="Reemplazo">Reemplazo</option>
+                                    <option value="Dañado">Dañado</option>
+                                    <option value="A garantia">A garantia</option>                                    
                                 </select>
                             </div>
                         </div>
@@ -168,7 +156,8 @@
                 <!-- /.box-body -->
 
                 <div class="box-footer">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <input type="submit" name="insertar" id="insertar" value="Guardar registro" class="btn btn-primary">
+                    <button type="button" class="btn btn-success" name="adicional" id="adicional">adicional +</button>
                 </div>
             </form>
         </div>
@@ -190,9 +179,9 @@
 </script>
 <script>
     function cargarProvincias() {
-    var array = ["Cantabria", "Asturias", "Galicia", "Andalucia", "Extremadura"];
+    var array = ["SOFTWARE", "HARDWARE", "RED", "DOMINIO"];
     array.sort();
-    addOptions("provincia", array);
+    addOptions("servicio", array);
 }
 
 
@@ -208,24 +197,23 @@ function addOptions(domElement, array) {
     }
 }
 
-
-
 function cargarPueblos() {
     // Objeto de provincias con pueblos
     var listaPueblos = {
-      cantabria: ["Laredo", "Gama", "Solares", "Castillo", "Santander"],
-      asturias: ["Langreo", "Villaviciosa", "Oviedo", "Gijon", "Covadonga"],
-      galicia: ["Tui", "Cambados", "Redondella", "Porriño", "Ogrove"],
-      andalucia: ["Dos Hermanas", "Écija", "Algeciras", "Marbella", "Sevilla"],
-      extremadura: ["Caceres", "Badajoz", "Plasencia", "Zafra", "Merida"]
+      software: ["Instalación S.O.", "Instalación Utilitarios", "Instalación Office", "Instalación drivers", "Instalación programas",
+                "Instalación impresora", "Instalación escaner", "Activación S.O.", "Actvación Office", "recuperación de archivos", "Reseteo de contraseña"],
+      hardware: ["Microprocesador", "Tarjeta madre", "Disco duro", "Memoria RAM", "Tarjeta de video", "Tarjeta de red", "Fuente de poder", "Lector DVD",
+                "Monitor", "Estabilizador", "impresora", "Escaner", "Teclado", "Mouse", "Fotocopiadora", "Switch", "Router", "Servicio simple"],
+      red: ["Instalción de red", "Configuración de red", "Compartir Impresora en red", "Traslado de red"],
+      dominio: ["Ingreso a dominio"],
     }
     
-    var provincias = document.getElementById('provincia')
-    var pueblos = document.getElementById('pueblo')
+    var provincias = document.getElementById('servicio')
+    var pueblos = document.getElementById('tipo_servicio')
     var provinciaSeleccionada = provincias.value
     
     // Se limpian los pueblos
-    pueblos.innerHTML = '<option value="">Seleccione un Pueblo...</option>'
+    pueblos.innerHTML = '<option value="">Seleccione un Tipo de servicio...</option>'
     
     if(provinciaSeleccionada !== ''){
       // Se seleccionan los pueblos y se ordenan
