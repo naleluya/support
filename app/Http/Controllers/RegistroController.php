@@ -8,6 +8,10 @@ use App\Technician;
 use App\Secretarie;
 use App\Direction;
 use App\Unit;
+use App\Support;
+Use App\Suport_detail;
+use App\Asset;
+use App\Categorie;
 
 class RegistroController extends Controller
 {
@@ -23,10 +27,10 @@ class RegistroController extends Controller
         $direccion = Direction::all();
         $unidad = Unit::all();
         return view("registro.soporte", 
-                    ['tecnicos' => $tecnico], 
-                    ['secretarias' => $secretaria], 
-                    ['direcciones' => $direccion], 
-                    ['unidades' => $unidad]);
+                    ['tecnicos' => $tecnico, 
+                    'secretarias' => $secretaria, 
+                    'direcciones' => $direccion, 
+                    'unidades' => $unidad]);
     }
 
     /**
@@ -47,7 +51,14 @@ class RegistroController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $soporte = new Support;
+        $soporte->solicitante = $request->solicitante;
+        $soporte->fec_solicitud = $request->fecha;
+        $soporte->sec_id = $request->secretaria;
+        $soporte->dir_id = $request->direccion;
+        $soporte->uni_id = $request->unidad;
+        $soporte->tec_id = $request->tecnico;
+        $soporte->save();        
     }
 
     /**
