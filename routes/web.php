@@ -11,8 +11,4 @@
 |
 */
 
-Route::get('/', function () {
-    return view('registro.soporte');
-});
-
-Route::resource('/soporte', 'RegistroController');
+Route::resource('/', 'RegistroController');

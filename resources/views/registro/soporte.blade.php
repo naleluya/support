@@ -41,7 +41,7 @@
                                     <div class="form-group">
                                         <label for="direccion">Dirección</label>
                                         <select id="direccion" name="direccion" class="form-control" disabled>
-                                            <option value="--" disable selected></option>
+                                            <option value="" disable selected></option>
                                             @foreach ($direcciones as $dir)
                                             <option value="{{ $dir->id }}">{{ $dir->dir_name }}</option>
                                             @endforeach
@@ -52,7 +52,7 @@
                                     <div class="form-group">
                                         <label for="unidad">Unidad</label>
                                         <select id="unidad" name="unidad" class="form-control" disabled>
-                                            <option value="--" disable selected></option>
+                                            <option value="" disable selected></option>
                                             @foreach ($unidades as $uni)
                                             <option value="{{ $uni->id }}">{{ $uni->uni_name }}</option>
                                             @endforeach
@@ -88,7 +88,7 @@
                                 <div class="col-md-8">
                                     <div class="form-group">
                                         <label for="solicitante">Solicitante</label>
-                                        <input type="text" name="solicitante" id="solicitante" class="form-control"
+                                        <input type="text" name="solicitante" id="solicitante" class="form-control text-uppercase"
                                             placeholder="Nombre del solicitante" required>
                                             {{ csrf_field() }}
                                     </div>
@@ -130,13 +130,87 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--formulario que se repetira-->
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6">
+                    <!-- general form elements -->
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title"><strong> Registros </strong></h3>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="box-body">
+                                            <table id="example1" class="table table-bordered table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nombre Tecnico</th>
+                                                        <th>Solicitante</th>
+                                                        <th>Servicio</th>
+                                                        <th>Activo</th>
+                                                        <th>Accion</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Trident</td>
+                                                        <td>Internet
+                                                            Explorer 4.0
+                                                        </td>
+                                                        <td>Win 95+</td>
+                                                        <td> 4</td>
+                                                        <td>X</td>
+                                                    </tr>                                                
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th>Rendering engine</th>
+                                                        <th>Browser</th>
+                                                        <th>Platform(s)</th>
+                                                        <th>Engine version</th>
+                                                        <th>CSS grade</th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                        <!-- /.box-body -->
+                                    </div>
+                                    <!-- /.box -->
+                                </div>
+                                <!-- /.col -->
+                            </div>
+                        <!-- /.row -->
+                        
+                    </div>
+                    <!-- /.box-header -->
+    
+                </div>
+            </div>
+        </div>
+    
+    <div class="box-body">
+            <div class="row">
+                <div class="col-md-6">
+    
+                    <!-- general form elements -->
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title"><strong> Detalle del soporte técnico </strong></h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <!-- form start -->          
+                    <form role="form" action="">
+                            <div class="box-body">
+                                    
                             <div class="row">
                                 <div class="col-md-4">
                                     <label>Servicio</label>
-                                    <select name="servicio" id="servicio" onchange="cargarPueblos();"
-                                        class="form-control">
-                                        <option value="">Seleccione un Servicio...</option>
+                                    <select name="servicio" id="servicio" class="form-control">
+                                        <option value="">Seleccione Servicio...</option>
+                                        @foreach ($categorias as $cate)
+                                            <option value="{{ $cate->id }}">{{ $cate->cat_nombre }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="col-md-4">
@@ -144,23 +218,26 @@
                                         <label for="exampleInputPassword1">Trabajo realizado</label>
                                         <select name="tipo_servicio" id="tipo_servicio" class="form-control">
                                             <option value="">Seleccione un tipo de servicio...</option>
+                                            @foreach ($activo as $act)
+                                                <option value="{{ $act->id }}">{{ $act->nombre_activo_ser }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
                             </div>
-
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Cod GAMEA (periférico)</label>
                                         <input type="text" class="form-control pull-right" id="datepicker"
                                             name="cod_gamea_p">
+                                            {{ csrf_field() }}
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Caracteristicas</label>
-                                        <input type="text" class="form-control" name="caracteristicas">
+                                        <input type="text" class="form-control text-uppercase" name="caracteristicas">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -171,7 +248,7 @@
                                             <option value="Reparado">Reparado</option>
                                             <option value="Reemplazo">Reemplazo</option>
                                             <option value="Dañado">Dañado</option>
-                                            <option value="A garantia">A garantia</option>
+                                            <option value="A garantia">A garantía</option>
                                         </select>
                                     </div>
                                 </div>
@@ -181,7 +258,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- /. repeticion-->
                         <!-- /.box-body -->
 
                         <div class="box-footer">
@@ -197,61 +273,8 @@
 
             <!-- /.row -->
 
-            <div class="col-md-6">
-                <!-- general form elements -->
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title"><strong> Registros </strong></h3>
-                        <section class="content-fluid">
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <div class="box-body">
-                                        <table id="example1" class="table table-bordered table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>Nombre Tecnico</th>
-                                                    <th>Solicitante</th>
-                                                    <th>Servicio</th>
-                                                    <th>Activo</th>
-                                                    <th>Accion</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>Trident</td>
-                                                    <td>Internet
-                                                        Explorer 4.0
-                                                    </td>
-                                                    <td>Win 95+</td>
-                                                    <td> 4</td>
-                                                    <td>X</td>
-                                                </tr>                                                
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>Rendering engine</th>
-                                                    <th>Browser</th>
-                                                    <th>Platform(s)</th>
-                                                    <th>Engine version</th>
-                                                    <th>CSS grade</th>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                    </div>
-                                    <!-- /.box-body -->
-                                </div>
-                                <!-- /.box -->
-                            </div>
-                            <!-- /.col -->
-                    </div>
-                    <!-- /.row -->
-</section>
-</div>
-<!-- /.box-header -->
-
-</div>
-</div>
-</div>
+            
+    </div>
 </div>
 
 </section>
@@ -280,6 +303,12 @@
         placeholder: "Seleccione Unidad...",
         allowClear: true
     });
+    $('#tipo_servicio').select2({
+        placeholder: "Seleccione Servicio...",
+        allowClear: true
+    });
+
+    
     $('#secretaria').change(function () {
         $('#direccion').removeAttr('disabled');
     });
@@ -288,7 +317,7 @@
     });
 </script>
 <script>
-    function cargarProvincias() {
+   /* function cargarProvincias() {
         var array = ["SOFTWARE", "HARDWARE", "RED", "DOMINIO"];
         array.sort();
         addOptions("servicio", array);
@@ -301,12 +330,13 @@
             var opcion = document.createElement("option");
             opcion.text = array[provincia];
             // Añadimos un value a los option para hacer mas facil escoger los pueblos
+            
             opcion.value = array[provincia].toLowerCase()
             selector.add(opcion);
         }
     }
 
-    function cargarPueblos() {
+   function cargarPueblos() {
         // Objeto de provincias con pueblos
         var listaPueblos = {
             software: ["Instalación S.O.", "Instalación Utilitarios", "Instalación Office", "Instalación drivers",
@@ -348,5 +378,5 @@
 
     // Iniciar la carga de provincias solo para comprobar que funciona
     cargarProvincias();
-</script>
+*/</script>
 @endsection

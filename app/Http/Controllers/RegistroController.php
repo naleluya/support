@@ -9,7 +9,7 @@ use App\Secretarie;
 use App\Direction;
 use App\Unit;
 use App\Support;
-Use App\Suport_detail;
+Use App\Support_detail;
 use App\Asset;
 use App\Categorie;
 
@@ -26,11 +26,18 @@ class RegistroController extends Controller
         $secretaria = Secretarie::all();
         $direccion = Direction::all();
         $unidad = Unit::all();
+        $soporte = Support::all();
+        $categoria = Categorie::all();
+        $activos = Asset::all();
         return view("registro.soporte", 
                     ['tecnicos' => $tecnico, 
                     'secretarias' => $secretaria, 
                     'direcciones' => $direccion, 
-                    'unidades' => $unidad]);
+                    'unidades' => $unidad,
+                    'categorias' => $categoria,
+                    'activo' => $activos,
+                    'soporte' => $soporte,
+                    ]);
     }
 
     /**
@@ -58,7 +65,20 @@ class RegistroController extends Controller
         $soporte->dir_id = $request->direccion;
         $soporte->uni_id = $request->unidad;
         $soporte->tec_id = $request->tecnico;
-        $soporte->save();        
+        $soporte->celular_sol = $request->celular;
+        $soporte->save();
+        
+        $detalles = new Support_detail;
+        $detalles->sup_id = $soporte->id;
+        $detalles->cod_gamea = $request->cod_gamea_p;
+        $detalles->serial_gamea = $request->serial_gamea;
+        $detalles->caracteristicas = $request->caracteristicas;
+        $detalles->asset_id = $request->tipo_servicio;
+        $detalles->estado = $request->estado;
+        $detalles->save();
+
+        return redirect('/');
+        
     }
 
     /**

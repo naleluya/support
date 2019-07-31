@@ -8,9 +8,9 @@ class Asset extends Model
 {
     protected $table = 'assets';
     protected $fillable =[
-        "nombre_activo",
+        "nombre_activo_ser",
         "cat_id",
-        "create_at",
-        "update_at"
+        "created_at",
+        "updated_at"
     ];
 }

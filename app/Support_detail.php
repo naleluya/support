@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Suport_detail extends Model
+class Support_detail extends Model
 {
     protected $table = 'support_details';
     protected $fillable =[
@@ -14,6 +14,7 @@ class Suport_detail extends Model
         "serial_gamea",
         "caracteristicas",
         "estado",
+        "tipo_servicio",
         "created_at",
         "updated_at"
     ];
