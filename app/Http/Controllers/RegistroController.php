@@ -82,13 +82,13 @@ class RegistroController extends Controller
         
     }
 
-    /*public function storeajax(Request $request){
+    public function storeajax(Request $request){
         if($request->ajax()){
             return response()->json([
 
             ]);
         }
-    }*/
+    }
 
     /**
      * Display the specified resource.
