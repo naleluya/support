@@ -10,11 +10,10 @@ class Support_detail extends Model
     protected $fillable =[
         "sup_id",
         "asset_id",
-        "cod_gamea",
+        "cod_gamea_p",
         "serial_gamea",
         "caracteristicas",
         "estado",
-        "tipo_servicio",
         "created_at",
         "updated_at"
     ];

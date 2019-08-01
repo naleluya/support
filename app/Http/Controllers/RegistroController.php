@@ -68,18 +68,27 @@ class RegistroController extends Controller
         $soporte->celular_sol = $request->celular;
         $soporte->save();
         
-        $detalles = new Support_detail;
+        
+        /*$detalles = new Support_detail;
         $detalles->sup_id = $soporte->id;
         $detalles->cod_gamea = $request->cod_gamea_p;
         $detalles->serial_gamea = $request->serial_gamea;
         $detalles->caracteristicas = $request->caracteristicas;
         $detalles->asset_id = $request->tipo_servicio;
         $detalles->estado = $request->estado;
-        $detalles->save();
+        $detalles->save();*/
 
-        return redirect('/');
+        //return redirect('/');
         
     }
+
+    /*public function storeajax(Request $request){
+        if($request->ajax()){
+            return response()->json([
+
+            ]);
+        }
+    }*/
 
     /**
      * Display the specified resource.

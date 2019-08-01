@@ -16,6 +16,7 @@ class Support extends Model
         "tec_id",
         "celular_sol",
         "created_at",
-        "updated_at"
+        "updated_at",
+        "codigo_gamea"
     ];
 }
