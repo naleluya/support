@@ -141,8 +141,8 @@
                                                     <tr>
                                                         <th>Servicio</th>
                                                         <th>Trabajo<br>Realizado</th>
-                                                        <th>Serial</th>
-                                                        <th>Codigo<br>GAMEA</th>
+                                                        <th>Serial<br>Codigo GAMEA</th>
+                                                        <th>Caractersiticas</th>
                                                         <th>Estado</th>
                                                         <th>Accion</th>
                                                     </tr>
@@ -154,8 +154,8 @@
                                                     <tr>
                                                         <th>Servicio</th>
                                                         <th>Trabajo<br>Realizado</th>
-                                                        <th>Serial</th>
-                                                        <th>Codigo<br>GAMEA</th>
+                                                        <th>Serial<br>Codigo GAMEA</th>
+                                                        <th>Caractersiticas</th>
                                                         <th>Estado</th>
                                                         <th>Accion</th>
                                                     </tr>
@@ -194,7 +194,7 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <label>Servicio</label>
-                                    <select name="servicio" id="servicio" class="form-control">
+                                    <select name="servicio" id="servicio" class="form-control" required>
                                         <option value="">Seleccione Servicio...</option>
                                         @foreach ($categorias as $cate)
                                             <option value="{{ $cate->id }}">{{ $cate->cat_nombre }}</option>
@@ -204,7 +204,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Trabajo realizado</label>
-                                        <select name="tipo_servicio" id="tipo_servicio" class="form-control">
+                                        <select name="tipo_servicio" id="tipo_servicio" class="form-control" required>
                                             <option value="">Seleccione un tipo de servicio...</option>
                                             @foreach ($activo as $act)
                                                 <option value="{{ $act->id }}">{{ $act->nombre_activo_ser }}</option>
@@ -215,7 +215,7 @@
                                 <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="solicitante">Serial GAMEA</label>
-                                            <input type="text" class="form-control pull-right" id="datepicker"
+                                            <input type="text" class="form-control pull-right" id="serial_gamea"
                                                 name="serial_gamea">
                                         </div>
                                     </div>
@@ -224,7 +224,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Cod GAMEA (periférico)</label>
-                                        <input type="text" class="form-control pull-right" id="datepicker"
+                                        <input type="text" class="form-control pull-right" id="cod_gamea_p"
                                             name="cod_gamea_p">
                                             <meta name="csrf-token" content="{{ csrf_token() }}">
                                     </div>
@@ -314,35 +314,53 @@
 </script>
 <script>
     var a = [];
+    var c =0;
         $('#btn_detalle').click(function (event) {
             event.preventDefault();
-            
             obj = {
-                servicio: $('#servicio'),
-                tipo_servicio: $('#tipo_servicio'),
-                serial_gamea: $('#serial_gamea'),
-                cod_gamea_p: $('#cod_gamea_p'),
-                caractersiticas: $('#caracteristicas'),
-                estado: $('#estado')
-            };
-            var tr = '<tr><td>'+(obj.servicio)+'</td><td>'+obj.tipo_servicio+'</td><td>'+obj.serial_gamea+'</td><td>'+obj.cod_gamea_p+'</td><td>'+obj.caracteristicas+'</td><td>'+obj.estado+'</td></tr>';
-            $("#cuerpo").append(tr)
+                id : c++,
+                servicio: $('#servicio').val(),
+                tipo_servicio: $('#tipo_servicio').val(),
+                serial_gamea: $('#serial_gamea').val(),
+                cod_gamea_p: $('#cod_gamea_p').val(),
+                caracteristicas: $('#caracteristicas').val(),
+                estado: $('#estado').val()
+        };
+
+            
             a.push(obj);
-            console.log(a);
-                        
+
+
+            var pos = a.indexOf(obj);
+            var tr = '<tr id= '+obj.id+'><td>'+obj.servicio+'</td><td>'+obj.tipo_servicio+'</td><td>Cod: '+obj.cod_gamea_p+'<br>S/N: '+obj.serial_gamea+
+                    '</td><td>'+obj.caracteristicas+'</td><td>'+obj.estado+
+                    '</td><td><button type="button" onclick="slice('+obj.id+')" class="btn btn-danger">Eliminar</button></td></tr>';
+            $("#cuerpo").append(tr)
+            
+            console.log(a);                        
         });
-       
+        
+        function slice(id){
+            console.log(id);
+            index = a.findIndex(x => x.id ===id);
+            //a.slice(0, 1);
+            console.log(index);
+
+        }
+        $('.delete_item').click(function(){
+            console.log('hola');
+        });
         
         var final ={
-            secretaria: $('#secretaria'),
-            direccion: $('#direccion'),
-            unidad: $('#unidad'),
-            tec_id: $('#tecnico'),
-            tipo_activo: $('#tipo_activo'),
-            solicitante: $('#solicitante'),
-            celular: $('#celular'),
-            fec_solicitud: $('#celular'),
-            codigo_gamea: $('#cod_gamea')
+            secretaria: $('#secretaria').val(),
+            direccion: $('#direccion').val(),
+            unidad: $('#unidad').val(),
+            tec_id: $('#tecnico').val(),
+            tipo_activo: $('#tipo_activo').val(),
+            solicitante: $('#solicitante').val(),
+            celular: $('#celular').val(),
+            fec_solicitud: $('#celular').val(),
+            codigo_gamea: $('#cod_gamea').val()
         };
         $('#insertar').click(function (event) {
             event.preventDefault();
