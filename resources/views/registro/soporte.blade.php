@@ -325,11 +325,9 @@
                 cod_gamea_p: $('#cod_gamea_p').val(),
                 caracteristicas: $('#caracteristicas').val(),
                 estado: $('#estado').val()
-        };
-
+            };
             
             a.push(obj);
-
 
             var pos = a.indexOf(obj);
             var tr = '<tr id= '+obj.id+'><td>'+obj.servicio+'</td><td>'+obj.tipo_servicio+'</td><td>Cod: '+obj.cod_gamea_p+'<br>S/N: '+obj.serial_gamea+
@@ -341,10 +339,14 @@
         });
         
         function slice(id){
-            console.log(id);
-            index = a.findIndex(x => x.id ===id);
-            //a.slice(0, 1);
+            //console.log(id);
+            index = a.findIndex(x => x.id ==id);
+            a.splice(id, 1);
+            //eliminamos el la fula de la tabla
+            document.getElementById(id).outerHTML="";
             console.log(index);
+            console.log(a);
+            console.log(obj);
 
         }
         $('.delete_item').click(function(){
@@ -366,7 +368,25 @@
             event.preventDefault();
             final.activos = a;
             console.log(final);
-            
+            $.ajax({
+                url: "{{ route('RegistroController.store') }}",
+                method: "POST",
+                data: final,
+                contentType: false,
+                cache: false,
+                processData: false,
+                dataType: "json",
+                success: function(data){
+                    if(true)
+                    alert ("los datos fueron guardados");
+                    
+                }
+                error: function(){
+                    if(false)
+                    alert ("no se guardaron los datos");
+                }
+                
+            });
         });
         /*
         $.ajaxSetup({

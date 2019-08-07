@@ -58,7 +58,7 @@ class RegistroController extends Controller
      */
     public function store(Request $request)
     {
-        $soporte = new Support;
+        /*$soporte = new Support;
         $soporte->solicitante = $request->solicitante;
         $soporte->fec_solicitud = $request->fecha;
         $soporte->sec_id = $request->secretaria;
@@ -69,7 +69,7 @@ class RegistroController extends Controller
         $soporte->save();
         
         
-        /*$detalles = new Support_detail;
+        $detalles = new Support_detail;
         $detalles->sup_id = $soporte->id;
         $detalles->cod_gamea = $request->cod_gamea_p;
         $detalles->serial_gamea = $request->serial_gamea;
