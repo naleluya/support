@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection as Collection;
 
 use App\Technician;
 use App\Secretarie;
@@ -12,6 +13,7 @@ use App\Support;
 Use App\Support_detail;
 use App\Asset;
 use App\Categorie;
+use function GuzzleHttp\json_decode;
 
 class RegistroController extends Controller
 {
@@ -58,27 +60,32 @@ class RegistroController extends Controller
      */
     public function store(Request $request)
     {
-        /*$soporte = new Support;
-        $soporte->solicitante = $request->solicitante;
+        
+        
+        $soporte = new Support;
+        $soporte->solicitante = trim(strtoupper($request->solicitante));
         $soporte->fec_solicitud = $request->fecha;
-        $soporte->sec_id = $request->secretaria;
-        $soporte->dir_id = $request->direccion;
-        $soporte->uni_id = $request->unidad;
-        $soporte->tec_id = $request->tecnico;
-        $soporte->celular_sol = $request->celular;
+        $soporte->sec_id = trim($request->secretaria);
+        $soporte->dir_id = trim($request->direccion);
+        $soporte->uni_id = trim($request->unidad);
+        $soporte->tec_id = trim($request->tec_id);
+        $soporte->celular_sol = trim($request->celular);
+        $soporte->codigo_gamea = trim($request->codigo_gamea);
         $soporte->save();
         
+        $a = count($request->activos);
+        for ($i=0; $i < $a ; $i++) { 
+            $detalles = new Support_detail;
+            $detalles->sup_id = $soporte->id;
+            $detalles->cod_gamea_p = trim($request->activos[$i]['cod_gamea_p']);
+            $detalles->asset_id = trim($request->activos[$i]['tipo_servicio']);
+            $detalles->serial_gamea = trim($request->activos[$i]['serial_gamea']);
+            $detalles->caracteristicas = trim(strtoupper($request->activos[$i]['caracteristicas']));
+            $detalles->estado = trim($request->activos[$i]['estado']);
+            $detalles->save();
+        }
         
-        $detalles = new Support_detail;
-        $detalles->sup_id = $soporte->id;
-        $detalles->cod_gamea = $request->cod_gamea_p;
-        $detalles->serial_gamea = $request->serial_gamea;
-        $detalles->caracteristicas = $request->caracteristicas;
-        $detalles->asset_id = $request->tipo_servicio;
-        $detalles->estado = $request->estado;
-        $detalles->save();*/
-
-        //return redirect('/');
+        return response()->json($request->all());
         
     }
 

@@ -77,7 +77,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="solicitante">Tipo activo</label>
-                                        <select class="form-control" name="tipo_activo">
+                                        <select class="form-control" name="tipo_activo" id="tipo_activo">
                                             <option>CPU</option>
                                             <option>LAPTOP</option>
                                         </select>
@@ -111,7 +111,7 @@
                                                 <i class="fa fa-calendar"></i>
                                             </div>
                                             <input type="text" class="form-control pull-right" id="datepicker"
-                                                name="fecha" required>
+                                                name="datepicker" required>
                                         </div>
                                     </div>
                                 </div>
@@ -151,14 +151,7 @@
                                                                                                  
                                                 </tbody>
                                                 <tfoot>
-                                                    <tr>
-                                                        <th>Servicio</th>
-                                                        <th>Trabajo<br>Realizado</th>
-                                                        <th>Serial<br>Codigo GAMEA</th>
-                                                        <th>Caractersiticas</th>
-                                                        <th>Estado</th>
-                                                        <th>Accion</th>
-                                                    </tr>
+                                                    
                                                 </tfoot>
                                             </table>
                                         </div>
@@ -330,7 +323,7 @@
             a.push(obj);
 
             var pos = a.indexOf(obj);
-            var tr = '<tr id= '+obj.id+'><td>'+obj.servicio+'</td><td>'+obj.tipo_servicio+'</td><td>Cod: '+obj.cod_gamea_p+'<br>S/N: '+obj.serial_gamea+
+            var tr = '<tr id= '+obj.id+'><td>'+obj.servicio+'</td><td>'+obj.tipo_servicio+'</td><td><b>Cod:</b> '+obj.cod_gamea_p+'<br><b>S/N:</b> '+obj.serial_gamea+
                     '</td><td>'+obj.caracteristicas+'</td><td>'+obj.estado+
                     '</td><td><button type="button" onclick="slice('+obj.id+')" class="btn btn-danger">Eliminar</button></td></tr>';
             $("#cuerpo").append(tr)
@@ -342,7 +335,7 @@
             //console.log(id);
             index = a.findIndex(x => x.id ==id);
             a.splice(id, 1);
-            //eliminamos el la fula de la tabla
+            //eliminamos el la fila de la tabla
             document.getElementById(id).outerHTML="";
             console.log(index);
             console.log(a);
@@ -353,7 +346,10 @@
             console.log('hola');
         });
         
-        var final ={
+       
+        $('#insertar').click(function (event) {
+            event.preventDefault();
+             var final ={
             secretaria: $('#secretaria').val(),
             direccion: $('#direccion').val(),
             unidad: $('#unidad').val(),
@@ -361,49 +357,29 @@
             tipo_activo: $('#tipo_activo').val(),
             solicitante: $('#solicitante').val(),
             celular: $('#celular').val(),
-            fec_solicitud: $('#celular').val(),
+            fec_solicitud: $('#datepicker').val(),
             codigo_gamea: $('#cod_gamea').val()
         };
-        $('#insertar').click(function (event) {
-            event.preventDefault();
+            
             final.activos = a;
             console.log(final);
             $.ajax({
-                url: "{{ route('RegistroController.store') }}",
+                url: "{{ url('/save_detalle') }}",
                 method: "POST",
-                data: final,
-                contentType: false,
-                cache: false,
-                processData: false,
                 dataType: "json",
+                data: JSON.stringify(final),
+                contentType: "aplication/json; charset=utf-8",                             
                 success: function(data){
+                    console.log(data);
                     if(true)
-                    alert ("los datos fueron guardados");
-                    
-                }
+                    alert ("los datos fueron guardados");                    
+                },
                 error: function(){
                     if(false)
                     alert ("no se guardaron los datos");
                 }
                 
             });
-        });
-        /*
-        $.ajaxSetup({
-            headers: {'X-CSRF-Token': $('meta[name=_token]').attr('content')}
-        });
-        $("#btn_detalle").click(function(){
-        var route = "http://127.0.0.1:8000/";
-
-        $.ajax({
-            url: route,
-            type: 'POST',
-            dataType: 'json',
-            data: $("#form_detalle")
-        });
-    });*/
-   
-    
-   
+        });   
 </script>
 @endsection

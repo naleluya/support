@@ -12,4 +12,4 @@
 */
 
 Route::resource('/', 'RegistroController');
-Route::post('/save_detalle', 'RegistroController@storeajax');
+Route::post('/save_detalle', 'RegistroController@store');
