@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Validator;
+//use App\Http\Requests\RegistroStoreRequest;
+//use App\Http\Requests\RegistroUpdateRequest;
 use Illuminate\Support\Collection as Collection;
 
 use App\Technician;
@@ -13,6 +16,7 @@ use App\Support;
 Use App\Support_detail;
 use App\Asset;
 use App\Categorie;
+
 use function GuzzleHttp\json_decode;
 
 class RegistroController extends Controller
@@ -60,11 +64,22 @@ class RegistroController extends Controller
      */
     public function store(Request $request)
     {
+        $mensaje=[
+            "required" => 'El :atributo es requerido'
+        ];
+        $request->validate([
+            'solicitante' => 'required',
+            'secretaria' => 'required',
+            'tec_id' =>  'required',
+            'codigo_gamea' => 'nullable'
+        ], $mensaje);
         
+        
+              
         
         $soporte = new Support;
         $soporte->solicitante = trim(strtoupper($request->solicitante));
-        $soporte->fec_solicitud = $request->fecha;
+        $soporte->fec_solicitud = $request->fec_solicitud;
         $soporte->sec_id = trim($request->secretaria);
         $soporte->dir_id = trim($request->direccion);
         $soporte->uni_id = trim($request->unidad);
@@ -77,6 +92,7 @@ class RegistroController extends Controller
         for ($i=0; $i < $a ; $i++) { 
             $detalles = new Support_detail;
             $detalles->sup_id = $soporte->id;
+            $detalles->cat_id = $request->activos[$i]['servicio'];
             $detalles->cod_gamea_p = trim($request->activos[$i]['cod_gamea_p']);
             $detalles->asset_id = trim($request->activos[$i]['tipo_servicio']);
             $detalles->serial_gamea = trim($request->activos[$i]['serial_gamea']);
@@ -89,13 +105,7 @@ class RegistroController extends Controller
         
     }
 
-    public function storeajax(Request $request){
-        if($request->ajax()){
-            return response()->json([
-
-            ]);
-        }
-    }
+    
 
     /**
      * Display the specified resource.

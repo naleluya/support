@@ -12,7 +12,17 @@
 @section('content')
 
 <section class="content">
+        
     <div class="box-body">
+        @if (isset($errors) && count($errors) > 0)
+            <div class="alert alert-danger" role="alert">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>            
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <div class="row">
             <div class="col-md-6">
 
@@ -374,9 +384,8 @@
                     if(true)
                     alert ("los datos fueron guardados");                    
                 },
-                error: function(){
-                    if(false)
-                    alert ("no se guardaron los datos");
+                error: function(data){
+                    console.log(data.responseJSON.errors);
                 }
                 
             });
