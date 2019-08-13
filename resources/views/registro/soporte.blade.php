@@ -164,6 +164,8 @@
                                                     
                                                 </tfoot>
                                             </table>
+                                            <input type="submit" name="insertar" id="insertar" value="Guardar registro" class="btn btn-primary">
+
                                         </div>
                                         <!-- /.box-body -->
                                     </div>
@@ -260,8 +262,6 @@
 
                         <div class="box-footer">
                                 <a href="#" class="btn btn-success" id="btn_detalle">Registrar detalle</a>
-                            <input type="submit" name="insertar" id="insertar" value="Guardar registro"
-                                class="btn btn-primary">
                         </div>
                     </form>
 
@@ -284,6 +284,7 @@
 <script src="{{ asset('bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
 <!-- Select2 -->
 <script src="{{ asset('bower_components/select2/dist/js/select2.full.min.js') }}"></script>
+<script src="{{ asset('js/bootstrap-notify.min.js') }}"></script>
 
 <script type="text/javascript">     
     $('#datepicker').datepicker({
@@ -323,7 +324,9 @@
             obj = {
                 id : c++,
                 servicio: $('#servicio').val(),
+                servicio_t: $('#servicio option:selected').text(),
                 tipo_servicio: $('#tipo_servicio').val(),
+                tipo_servicio_t: $('#tipo_servicio option:selected').text(),
                 serial_gamea: $('#serial_gamea').val(),
                 cod_gamea_p: $('#cod_gamea_p').val(),
                 caracteristicas: $('#caracteristicas').val(),
@@ -333,7 +336,7 @@
             a.push(obj);
 
             var pos = a.indexOf(obj);
-            var tr = '<tr id= '+obj.id+'><td>'+obj.servicio+'</td><td>'+obj.tipo_servicio+'</td><td><b>Cod:</b> '+obj.cod_gamea_p+'<br><b>S/N:</b> '+obj.serial_gamea+
+            var tr = '<tr id= '+obj.id+'><td>'+obj.servicio_t+'</td><td>'+obj.tipo_servicio_t+'</td><td><b>Cod:</b> '+obj.cod_gamea_p+'<br><b>S/N:</b> '+obj.serial_gamea+
                     '</td><td>'+obj.caracteristicas+'</td><td>'+obj.estado+
                     '</td><td><button type="button" onclick="slice('+obj.id+')" class="btn btn-danger">Eliminar</button></td></tr>';
             $("#cuerpo").append(tr)
@@ -382,12 +385,13 @@
                 success: function(data){
                     console.log(data);
                     if(true)
-                    alert ("los datos fueron guardados");                    
+                    alert ("los datos fueron guardados");
+                    location.reload();                    
                 },
                 error: function(data){
-                    console.log(data.responseJSON.errors);
-                }
-                
+                    //console.log(data.responseJSON.errors);
+                    //$.notify( message:"Hello world")show();
+                }                
             });
         });   
 </script>
