@@ -7,6 +7,7 @@ use Illuminate\Validation\Validator;
 //use App\Http\Requests\RegistroStoreRequest;
 //use App\Http\Requests\RegistroUpdateRequest;
 use Illuminate\Support\Collection as Collection;
+use DB;
 
 use App\Technician;
 use App\Secretarie;
@@ -65,12 +66,18 @@ class RegistroController extends Controller
     public function store(Request $request)
     {
         $mensaje=[
-            "required" => 'El :atributo es requerido'
+            "solicitante.required" => 'El campo Solicitante es requerido',
+            "fec_solicitud.required" => 'El campo Fecha de solicitud es requerido ',
+            "celular.required" => 'El campo Celular  es requerido',
+            "tec_id.required" => 'El campo Tecnico es requerido',
+            "secretaria.required" => 'El campo Secretaría es requerido',            
         ];
         $request->validate([
             'solicitante' => 'required',
             'secretaria' => 'required',
             'tec_id' =>  'required',
+            'celular' => 'required',
+            'fec_solicitud' => 'required',
             'codigo_gamea' => 'nullable'
         ], $mensaje);
         
@@ -86,6 +93,7 @@ class RegistroController extends Controller
         $soporte->tec_id = trim($request->tec_id);
         $soporte->celular_sol = trim($request->celular);
         $soporte->codigo_gamea = trim($request->codigo_gamea);
+        $soporte->codigo_gamea = ('' == $soporte->codigo_gamea)? "0" : $soporte->codigo_gamea;
         $soporte->save();
         
         $a = count($request->activos);
@@ -105,7 +113,18 @@ class RegistroController extends Controller
         
     }
 
-    
+    public function lista_reg(){
+        
+        $registro = DB::table('supports')
+                        ->join('technicians', 'supports.tec_id', '=', 'technicians.id')
+                        ->join('secretaries', 'supports.sec_id', '=', 'secretaries.id')
+                        ->rightjoin('directions', 'supports.dir_id', '=', 'directions.id')
+                        ->join('units', 'supports.uni_id', '=', 'units.id')
+                        ->select('*')
+                        ->get();
+                        dd($registro);
+        return view("registro.lista_registros", compact('registro'));
+    }
 
     /**
      * Display the specified resource.

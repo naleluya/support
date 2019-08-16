@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
     @yield('css')
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini sidebar-collapse">
         <!-- Site wrapper -->
         <div class="wrapper">
         
@@ -50,10 +50,7 @@
                   
                   <!-- Notifications: style can be found in dropdown.less -->
                   <li class="dropdown notifications-menu">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                      <i class="fa fa-bell-o"></i>
-                      <span class="label label-warning">10</span>
-                    </a>
+                    
                     <ul class="dropdown-menu">
                       <li class="header">Tienes 1 notificacion</li>
                       <li>
@@ -73,14 +70,11 @@
                   <!-- User Account: style can be found in dropdown.less -->
                   <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                      <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                      <span class="hidden-xs">Alexander Pierce</span>
+                      <span class="hidden-xs">Unidad de Sistemas</span>
                     </a>
                     <ul class="dropdown-menu">
                       <!-- User image -->
-                      <li class="user-header">
-                        <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-        
+                      <li class="user-header">        
                         <p>
                           Alexander Pierce - Web Developer
                           <small>Jefe Unidad de Sistemas</small>
@@ -98,11 +92,7 @@
                         </div>
                       </li>
                     </ul>
-                  </li>
-                  <!-- Control Sidebar Toggle Button -->
-                  <li>
-                    <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-                  </li>
+                  </li>                                    
                 </ul>
               </div>
             </nav>

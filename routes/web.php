@@ -12,4 +12,4 @@
 */
 
 Route::resource('/', 'RegistroController');
-Route::post('/save_detalle', 'RegistroController@store');
+Route::get('/lista', 'RegistroController@lista_reg')->name('lista');

@@ -51,7 +51,7 @@
                                     <div class="form-group">
                                         <label for="direccion">Dirección</label>
                                         <select id="direccion" name="direccion" class="form-control" disabled>
-                                            <option value="" disable selected></option>
+                                            <option value="0" disable selected></option>
                                             @foreach ($direcciones as $dir)
                                             <option value="{{ $dir->id }}">{{ $dir->dir_name }}</option>
                                             @endforeach
@@ -62,7 +62,7 @@
                                     <div class="form-group">
                                         <label for="unidad">Unidad</label>
                                         <select id="unidad" name="unidad" class="form-control" disabled>
-                                            <option value="" disable selected></option>
+                                            <option value="0" disable selected></option>
                                             @foreach ($unidades as $uni)
                                             <option value="{{ $uni->id }}">{{ $uni->uni_name }}</option>
                                             @endforeach
@@ -164,7 +164,7 @@
                                                     
                                                 </tfoot>
                                             </table>
-                                            <input type="submit" name="insertar" id="insertar" value="Guardar registro" class="btn btn-primary">
+                                            <input type="submit" name="insertar" id="insertar" value="Guardar registro" class="btn btn-primary btn-block">
 
                                         </div>
                                         <!-- /.box-body -->
@@ -200,7 +200,7 @@
                                 <div class="col-md-4">
                                     <label>Servicio</label>
                                     <select name="servicio" id="servicio" class="form-control" required>
-                                        <option value="">Seleccione Servicio...</option>
+                                        <option value="0">Seleccione Servicio...</option>
                                         @foreach ($categorias as $cate)
                                             <option value="{{ $cate->id }}">{{ $cate->cat_nombre }}</option>
                                         @endforeach
@@ -317,7 +317,7 @@
     });
 </script>
 <script>
-    var a = [];
+    var activos_array = [];
     var c =0;
         $('#btn_detalle').click(function (event) {
             event.preventDefault();
@@ -332,29 +332,27 @@
                 caracteristicas: $('#caracteristicas').val(),
                 estado: $('#estado').val()
             };
-            
-            a.push(obj);
 
-            var pos = a.indexOf(obj);
+            activos_array.push(obj);
+            
+
+            var pos = activos_array.indexOf(obj);
             var tr = '<tr id= '+obj.id+'><td>'+obj.servicio_t+'</td><td>'+obj.tipo_servicio_t+'</td><td><b>Cod:</b> '+obj.cod_gamea_p+'<br><b>S/N:</b> '+obj.serial_gamea+
                     '</td><td>'+obj.caracteristicas+'</td><td>'+obj.estado+
                     '</td><td><button type="button" onclick="slice('+obj.id+')" class="btn btn-danger">Eliminar</button></td></tr>';
             $("#cuerpo").append(tr)
             
-            console.log(a);                        
+            console.log(activos_array);
         });
         
         function slice(id){
             //console.log(id);
-            index = a.findIndex(x => x.id ==id);
-            a.splice(id, 1);
+            index = activos_array.findIndex(x => x.id ==id);
+            activos_array.splice(id, 1);
             //eliminamos el la fila de la tabla
             document.getElementById(id).outerHTML="";
-            console.log(index);
-            console.log(a);
-            console.log(obj);
-
         }
+
         $('.delete_item').click(function(){
             console.log('hola');
         });
@@ -372,10 +370,12 @@
             celular: $('#celular').val(),
             fec_solicitud: $('#datepicker').val(),
             codigo_gamea: $('#cod_gamea').val()
-        };
+
             
-            final.activos = a;
-            console.log(final);
+        };
+        console.log(final);
+            
+            final.activos = activos_array;
             $.ajax({
                 url: "{{ url('/save_detalle') }}",
                 method: "POST",
@@ -383,14 +383,27 @@
                 data: JSON.stringify(final),
                 contentType: "aplication/json; charset=utf-8",                             
                 success: function(data){
-                    console.log(data);
                     if(true)
-                    alert ("los datos fueron guardados");
-                    location.reload();                    
+                    location.reload();
+                    $.notify({message: 'El registro se guardo satisfactoriamente'},
+                            { type: 'success'});
                 },
                 error: function(data){
-                    //console.log(data.responseJSON.errors);
-                    //$.notify( message:"Hello world")show();
+                    console.log(data.responseJSON.errors);
+                    var obj=data.responseJSON.errors;
+                    $.notify({
+                        icon: 'glyphicon glyphicon-warning-sign',
+                        title: '<b>Error de ingreso de datos</b></br>',
+                        message: `
+                            ${ (obj.secretaria)?obj.secretaria[0]:" " }</br>
+                            ${ (obj.tec_id)?obj.tec_id[0]:" " }</br>
+                            ${ (obj.solicitante)?obj.solicitante[0]:" " }</br>
+                            ${ (obj.celular_sol)?obj.celular_sol[0]:" " }</br>
+                            ${ (obj.solicitante)?obj.solicitante[0]:" " }</br>
+                            `
+                        },{
+                        type: 'danger'
+                        });      
                 }                
             });
         });   

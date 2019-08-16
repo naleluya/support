@@ -23,8 +23,9 @@
             </span>
           </a>
           <ul class="treeview-menu">
-              <li><a href="#"><i class="fa fa-circle-o text-green"></i> Soporte</a></li>
-            </ul>
+            <li><a href="{{ url('/') }}"><i class="fa fa-circle-o text-green"></i> Soporte</a></li>          
+            <li><a href="{{ url('lista') }}"><i class="fa fa-circle-o text-yellow"></i> Lista de registros</a></li>
+          </ul>
         </li>
         <li class="treeview">
             <a href="#">
