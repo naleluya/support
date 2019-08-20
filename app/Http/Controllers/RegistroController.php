@@ -117,9 +117,9 @@ class RegistroController extends Controller
         
         $registro = DB::table('supports')
                         ->join('technicians', 'supports.tec_id', '=', 'technicians.id')
-                        ->join('secretaries', 'supports.sec_id', '=', 'secretaries.id')
-                        ->rightjoin('directions', 'supports.dir_id', '=', 'directions.id')
-                        ->join('units', 'supports.uni_id', '=', 'units.id')
+                        ->leftjoin('secretaries', 'supports.sec_id', '=', 'secretaries.id')
+                        ->leftjoin('directions', 'supports.dir_id', '=', 'directions.id')
+                        ->leftjoin('units', 'supports.uni_id', '=', 'units.id')
                         ->select('*')
                         ->get();
                         dd($registro);

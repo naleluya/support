@@ -18,31 +18,35 @@
                 <table id="tabla_registros" class="table table-bordered table-striped">
                   <thead>
                   <tr>
-                    <th>Rendering engine</th>
-                    <th>Browser</th>
-                    <th>Platform(s)</th>
-                    <th>Engine version</th>
-                    <th>CSS grade</th>
+                    <th>Tecnico</th>
+                    <th>Dependencia</th>
+                    <th>Solicitante</th>
+                    <th>Servicio</th>
+                    <th>Acciones</th>
                   </tr>
                   </thead>
                   <tbody>
-                  <tr>
-                    <td>Trident</td>
-                    <td>Internet
-                      Explorer 4.0
-                    </td>
-                    <td>Win 95+</td>
-                    <td> 4</td>
-                    <td>X</td>
-                  </tr>
+                    @foreach ($registro as $reg)
+                      <tr>
+                        <td>{{ $reg->tec_nombres }} {{ $reg->tec_paterno }} {{ $reg->tec_materno }}</td>
+                        <td>{{ $reg->sec_nombre }}</td>
+                        <td>{{ $reg->solicitante }}</td>
+                        <td>Servicio</td>
+                        <td>
+                          <a href="#" class="btn btn-danger" id="btn_eliminar">eliminar</a> 
+                          <a href="#" class="btn btn-info" id="btn_editar">editar</a>
+                        </td>
+                      </tr>
+                    @endforeach
+                  
                   </tbody>
                   <tfoot>
                   <tr>
-                    <th>Rendering engine</th>
-                    <th>Browser</th>
-                    <th>Platform(s)</th>
-                    <th>Engine version</th>
-                    <th>CSS grade</th>
+                      <th>Tecnico</th>
+                      <th>Dependencia</th>
+                      <th>Solicitante</th>
+                      <th>Servicio</th>
+                      <th>Acciones</th>
                   </tr>
                   </tfoot>
                 </table>
