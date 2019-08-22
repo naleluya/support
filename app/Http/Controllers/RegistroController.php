@@ -122,7 +122,7 @@ class RegistroController extends Controller
                         ->leftjoin('units', 'supports.uni_id', '=', 'units.id')
                         ->select('*')
                         ->get();
-                        dd($registro);
+                        //dd($registro);
         return view("registro.lista_registros", compact('registro'));
     }
 

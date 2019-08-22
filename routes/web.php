@@ -13,3 +13,4 @@
 
 Route::resource('/', 'RegistroController');
 Route::get('/lista', 'RegistroController@lista_reg')->name('lista');
+Route::post('/save_detalle', 'RegistroController@store');
