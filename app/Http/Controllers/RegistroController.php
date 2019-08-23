@@ -80,10 +80,7 @@ class RegistroController extends Controller
             'fec_solicitud' => 'required',
             'codigo_gamea' => 'nullable'
         ], $mensaje);
-        
-        
-              
-        
+
         $soporte = new Support;
         $soporte->solicitante = trim(strtoupper($request->solicitante));
         $soporte->fec_solicitud = $request->fec_solicitud;
@@ -115,15 +112,18 @@ class RegistroController extends Controller
 
     public function lista_reg(){
         
+        $detalle = DB::table('support_details')->select('*')->get();
+        $servicio = DB::table('assets')->select('*')->get();
+        $categoria = DB::table('categories')->select('*')->get();
         $registro = DB::table('supports')
                         ->join('technicians', 'supports.tec_id', '=', 'technicians.id')
                         ->leftjoin('secretaries', 'supports.sec_id', '=', 'secretaries.id')
                         ->leftjoin('directions', 'supports.dir_id', '=', 'directions.id')
                         ->leftjoin('units', 'supports.uni_id', '=', 'units.id')
-                        ->select('*')
+                        ->select('*', 'supports.id as id_support', 'technicians.id as id_technician')
                         ->get();
-                        //dd($registro);
-        return view("registro.lista_registros", compact('registro'));
+                        //dd($registro, $servicio, $detalle);
+        return view("registro.lista_registros", compact(['registro','servicio', 'detalle','categoria']));
     }
 
     /**
@@ -168,6 +168,8 @@ class RegistroController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $registro = Support::findOrFail($id);
+        $registro->delete();
+        return redirect("/lista");
     }
 }
