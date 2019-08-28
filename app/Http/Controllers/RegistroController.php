@@ -151,10 +151,10 @@ class RegistroController extends Controller
         $unidad = Unit::all();
         $categoria = Categorie::all();
         $activos = Asset::all();
-        $soporte = Support::find($id);
+        $soporte = Support::findOrFail($id);
         $detalles = Support_detail::select('*')->where('sup_id',$id)->get()->all();
-        //dd($soporte);
-        //dd($detalles);
+        //dd($soporte,$detalles);
+        //dd($categoria);
         return view("registro.edit_soporte", compact(['soporte','tecnico','secretaria','direccion','unidad', 'categoria', 'activos', 'detalles']));
     }
 
@@ -179,9 +179,9 @@ class RegistroController extends Controller
     public function destroy($id)
     {
         $registro = Support::findOrFail($id);
-        $detalle = DB::table('support_details')->where('sup_id', $id)->get();
+        //$detalle = DB::table('support_details')->where('sup_id', $id)->get();
         $registro->delete();
-        $detalle->delete();
+        
 
         return redirect("/lista");
     }

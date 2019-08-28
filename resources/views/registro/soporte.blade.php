@@ -392,7 +392,7 @@
                             ${ (obj.tec_id)?obj.tec_id[0]:" " }</br>
                             ${ (obj.solicitante)?obj.solicitante[0]:" " }</br>
                             ${ (obj.celular_sol)?obj.celular_sol[0]:" " }</br>
-                            ${ (obj.solicitante)?obj.solicitante[0]:" " }</br>
+                            ${ (obj.fec_solicitud)?obj.fec_solicitud[0]:" " }
                             `
                         },{
                         type: 'danger'

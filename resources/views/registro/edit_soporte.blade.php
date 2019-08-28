@@ -33,6 +33,8 @@
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
+                    @foreach ($soporte as $sop)
+                        
                     <form role="form" method="post">
                         <div class="box-body">
                             <div class="row">
@@ -72,18 +74,16 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-8">
-
                                     <div class="form-group">
                                         <label for="tecnico">Tecnico <b style="color:red;">*</b></label>
                                         <select class="form-control" name="tecnico" id="tecnico" required>
                                             
-                                            <option value="">Seleccione</option>
+                                            <option value=""></option>
                                             @foreach ($tecnico as $tec)
                                             <option value="{{ $tec->id }}">{{ $tec->tec_nombres }} {{ $tec->tec_paterno }} {{ $tec->tec_materno }}</option>
                                             @endforeach
                                         </select>
                                     </div>
-
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
@@ -137,6 +137,7 @@
                             </div>
                         </div>
                     </form>
+                    @endforeach
                 </div>
             </div>
             <div class="col-md-6">
@@ -394,7 +395,7 @@
                             ${ (obj.tec_id)?obj.tec_id[0]:" " }</br>
                             ${ (obj.solicitante)?obj.solicitante[0]:" " }</br>
                             ${ (obj.celular_sol)?obj.celular_sol[0]:" " }</br>
-                            ${ (obj.solicitante)?obj.solicitante[0]:" " }</br>
+                            ${ (obj.fec_solicitud)?obj.fec_solicitud[0]:" " }
                             `
                         },{
                         type: 'danger'
