@@ -25,10 +25,11 @@
         @endif
         <div class="row">
             <div class="col-md-6">
+
                 <!-- general form elements -->
-                <div class="box box-primary">
+                <div class="box box-warning">
                     <div class="box-header with-border">
-                        <h3 class="box-title"><strong> Servicio Técnico </strong></h3>
+                        <h3 class="box-title"><strong>Edición - Servicio Técnico </strong></h3>
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
@@ -40,7 +41,7 @@
                                         <label for="secretaria">Secretaría <b style="color:red;">*</b></label>
                                         <select id="secretaria" name="secretaria" class="form-control" required>
                                             <option value="" disable selected></option>
-                                            @foreach ($secretarias as $sec)
+                                            @foreach ($secretaria as $sec)
                                             <option value="{{ $sec->id }}">{{ $sec->sec_name }}</option>
                                             @endforeach
                                         </select>
@@ -51,7 +52,7 @@
                                         <label for="direccion">Dirección</label>
                                         <select id="direccion" name="direccion" class="form-control" disabled>
                                             <option value="0" disable selected></option>
-                                            @foreach ($direcciones as $dir)
+                                            @foreach ($direccion as $dir)
                                             <option value="{{ $dir->id }}">{{ $dir->dir_name }}</option>
                                             @endforeach
                                         </select>
@@ -62,7 +63,7 @@
                                         <label for="unidad">Unidad</label>
                                         <select id="unidad" name="unidad" class="form-control" disabled>
                                             <option value="0" disable selected></option>
-                                            @foreach ($unidades as $uni)
+                                            @foreach ($unidad as $uni)
                                             <option value="{{ $uni->id }}">{{ $uni->uni_name }}</option>
                                             @endforeach
                                         </select>
@@ -75,8 +76,9 @@
                                     <div class="form-group">
                                         <label for="tecnico">Tecnico <b style="color:red;">*</b></label>
                                         <select class="form-control" name="tecnico" id="tecnico" required>
-                                            <option value="">Seleccione un tecnico...</option>
-                                            @foreach ($tecnicos as $tec)
+                                            
+                                            <option value="">Seleccione</option>
+                                            @foreach ($tecnico as $tec)
                                             <option value="{{ $tec->id }}">{{ $tec->tec_nombres }} {{ $tec->tec_paterno }} {{ $tec->tec_materno }}</option>
                                             @endforeach
                                         </select>
@@ -139,7 +141,7 @@
             </div>
             <div class="col-md-6">
                     <!-- general form elements -->
-                    <div class="box box-primary">
+                    <div class="box box-warning">
                         <div class="box-header with-border">
                             <h3 class="box-title"><strong> Registros </strong></h3>
                                 <div class="row">
@@ -186,7 +188,7 @@
                 <div class="col-md-6">
     
                     <!-- general form elements -->
-                    <div class="box box-primary">
+                    <div class="box box-warning">
                         <div class="box-header with-border">
                             <h3 class="box-title"><strong> Detalle del soporte técnico </strong></h3>
                         </div>
@@ -200,7 +202,7 @@
                                     <label>Servicio <b style="color:red;">*</b></label>
                                     <select name="servicio" id="servicio" class="form-control" required>
                                         <option value="0">Seleccione Servicio...</option>
-                                        @foreach ($categorias as $cate)
+                                        @foreach ($categoria as $cate)
                                             <option value="{{ $cate->id }}">{{ $cate->cat_nombre }}</option>
                                         @endforeach
                                     </select>
@@ -210,7 +212,7 @@
                                         <label for="exampleInputPassword1">Trabajo realizado <b style="color:red;">*</b></label>
                                         <select name="tipo_servicio" id="tipo_servicio" class="form-control" required>
                                             <option value="">Seleccione un tipo de servicio...</option>
-                                            @foreach ($activo as $act)
+                                            @foreach ($activos as $act)
                                                 <option value="{{ $act->id }}">{{ $act->nombre_activo_ser }}</option>
                                             @endforeach
                                         </select>

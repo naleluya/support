@@ -19,9 +19,9 @@
                 <table id="tabla_registros" class="table table-bordered table-striped">
                   <thead>
                   <tr>
-                    <th>Tecnico</th>
-                    <th>Dependencia</th>
                     <th>Solicitante</th>
+                    <th>Tecnico Responsable</th>
+                    <th>Dependencia</th>                    
                     <th>Servicio</th>
                     <th>Acciones</th>
                   </tr>
@@ -29,9 +29,9 @@
                   <tbody>
                     @foreach ($registro as $reg)
                       <tr>
+                        <td>{{ $reg->solicitante }} <br><b>Fecha solicitud:</b>  {{ $reg->fec_solicitud }}</td>
                         <td>{{ $reg->tec_nombres }} {{ $reg->tec_paterno }} {{ $reg->tec_materno }}</td>
-                        <td>{{ $reg->sec_nombre }}<br>{{ $reg->dir_name }}<br>{{ $reg->uni_name }}</td>
-                        <td>{{ $reg->solicitante }}</td>
+                        <td>{{ $reg->sec_nombre }}<br>{{ $reg->dir_name }}<br>{{ $reg->uni_name }}</td>                        
                         <td>
                           @foreach ($detalle as $det)
                             @if ($det->sup_id == $reg->id_support)
@@ -49,10 +49,12 @@
                             {{ csrf_field() }}                            
                           </form> 
                           
-                          <form action="#" style="float: left">
+                          <form method="get" action="{{ route('editar', $reg->id_support) }}" style="float: left">
                             <input type="submit" value="Editar" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#ventanaEditar">
                             {{ csrf_field() }}
                           </form>
+
+                          <button class="btn btn-secondary btn-sm"><i class="fa fa-file-pdf-o"></i></button>
                         </td>
                       </tr>
                     @endforeach
@@ -78,25 +80,6 @@
         <!-- /.row -->
       </section>
       <!-- /.content --> 
-      <div class="modal" id="ventanaEditar" tabindex="-1" role="dialog">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">Editar Registro</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <p>Modal body text goes here.</p>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-              </div>
-            </div>
-          </div>
-        </div>
 @endsection
 
 
