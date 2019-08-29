@@ -33,7 +33,7 @@
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
-                    @foreach ($soporte as $sop)
+                   
                         
                     <form role="form" method="post">
                         <div class="box-body">
@@ -44,18 +44,26 @@
                                         <select id="secretaria" name="secretaria" class="form-control" required>
                                             <option value="" disable selected></option>
                                             @foreach ($secretaria as $sec)
-                                            <option value="{{ $sec->id }}">{{ $sec->sec_name }}</option>
-                                            @endforeach
+                                                @if ($soporte->sec_id == $sec->id)
+                                                    <option value="{{ $sec->id }}" selected>{{ $sec->sec_name }}</option>
+                                                @else
+                                                    <option value="{{ $sec->id }}">{{ $sec->sec_name }}</option>
+                                                @endif                                            
+                                            @endforeach                                            
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="direccion">Dirección</label>
-                                        <select id="direccion" name="direccion" class="form-control" disabled>
+                                        <select id="direccion" name="direccion" class="form-control" >
                                             <option value="0" disable selected></option>
                                             @foreach ($direccion as $dir)
-                                            <option value="{{ $dir->id }}">{{ $dir->dir_name }}</option>
+                                                @if ($soporte->dir_id == $dir->id)
+                                                    <option value="{{ $dir->id }}" selected>{{ $dir->dir_name }}</option>
+                                                @else
+                                                    <option value="{{ $dir->id }}">{{ $dir->dir_name }}</option>
+                                                @endif                                            
                                             @endforeach
                                         </select>
                                     </div>
@@ -63,10 +71,14 @@
                                 <div class="col-md-5">
                                     <div class="form-group">
                                         <label for="unidad">Unidad</label>
-                                        <select id="unidad" name="unidad" class="form-control" disabled>
+                                        <select id="unidad" name="unidad" class="form-control">
                                             <option value="0" disable selected></option>
                                             @foreach ($unidad as $uni)
-                                            <option value="{{ $uni->id }}">{{ $uni->uni_name }}</option>
+                                                @if ($soporte->uni_id == $uni->id)
+                                                    <option value="{{ $uni->id }}" selected>{{ $uni->uni_name }}</option>
+                                                @else
+                                                    <option value="{{ $uni->id }}">{{ $uni->uni_name }}</option>
+                                                @endif
                                             @endforeach
                                         </select>
                                     </div>
@@ -78,9 +90,13 @@
                                         <label for="tecnico">Tecnico <b style="color:red;">*</b></label>
                                         <select class="form-control" name="tecnico" id="tecnico" required>
                                             
-                                            <option value=""></option>
+                                            <option value="{{ $soporte->tec_id}}">{{ $soporte->tec_id }}</option>                                
                                             @foreach ($tecnico as $tec)
-                                            <option value="{{ $tec->id }}">{{ $tec->tec_nombres }} {{ $tec->tec_paterno }} {{ $tec->tec_materno }}</option>
+                                                @if ($soporte->tec_id == $tec->id)
+                                                    <option value="{{ $tec->id }}" selected>{{ $tec->tec_nombres }} {{ $tec->tec_paterno }} {{ $tec->tec_materno }}</option>
+                                                @else
+                                                    <option value="{{ $tec->id }}">{{ $tec->tec_nombres }} {{ $tec->tec_paterno }} {{ $tec->tec_materno }}</option>
+                                                @endif                                            
                                             @endforeach
                                         </select>
                                     </div>
@@ -100,7 +116,7 @@
                                     <div class="form-group">
                                         <label for="solicitante">Solicitante <b style="color:red;">*</b></label>
                                         <input type="text" name="solicitante" id="solicitante" class="form-control text-uppercase"
-                                            placeholder="Nombre del solicitante" required>
+                                            placeholder="Nombre del solicitante" required value="{{ $soporte->solicitante }}">
                                             {{ csrf_field() }}
                                     </div>
                                 </div>
@@ -108,7 +124,7 @@
                                     <div class="form-group">
                                         <label for="solicitante">Celular <b style="color:red;">*</b></label>
                                         <input type="number" id="celular" name="celular" class="form-control"
-                                            placeholder="Número de celular">
+                                            placeholder="Número de celular" value="{{ $soporte->celular_sol }}">
                                     </div>
                                 </div>
 
@@ -122,7 +138,7 @@
                                                 <i class="fa fa-calendar"></i>
                                             </div>
                                             <input type="text" class="form-control pull-right" id="datepicker"
-                                                name="datepicker" required>
+                                                name="datepicker" required value="{{ \Carbon\Carbon::parse($soporte->fec_solicitud)->format('d/m/Y') }}">
                                         </div>
                                     </div>
                                 </div>
@@ -130,14 +146,14 @@
                                     <div class="form-group">
                                         <label for="solicitante">Codigo GAMEA</label>
                                         <input type="number" class="form-control pull-right" id="cod_gamea"
-                                            name="cod_gamea">
+                                            name="cod_gamea" value="{{ $soporte->codigo_gamea }}">
                                     </div>
                                 </div>
                                 
                             </div>
                         </div>
                     </form>
-                    @endforeach
+                   
                 </div>
             </div>
             <div class="col-md-6">
@@ -160,13 +176,35 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody id="cuerpo">
+                                                    @foreach ($detalles as $det)
+                                                    <tr>
+                                                        @if ($det->sup_id == $soporte->id)
+                                                        @foreach ($categoria as $cat)
+                                                            @if ($cat->id == $det->cat_id)
+                                                            
+                                                                    <td>{{ $cat->cat_nombre }}</td>
+                                                                
+                                                            @endif
+                                                        @endforeach
+                                                        @foreach ($activos as $act)
+                                                            @if ($act->id == $det->asset_id)
+                                                            
+                                                                <td>{{ $act->nombre_activo_ser }}</td>
+                                                                <td> <b>Cod: </b> {{ $act->cod_gamea_p }}<br> <b>S/N: </b>{{ $act->serial_gamea }} </td>
+                                                            @endif
+                                                        @endforeach
+                                                        <td>{{ $det->caracteristicas }}</td>
+                                                        <td>{{ $det->estado }}</td>
+                                                        @endif
+                                                    </tr>
+                                                    @endforeach
                                                                                                  
                                                 </tbody>
                                                 <tfoot>
                                                     
                                                 </tfoot>
                                             </table>
-                                            <input type="submit" name="insertar" id="insertar" value="Guardar registro" class="btn btn-primary btn-block">
+                                            <input type="submit" name="insertar" id="insertar" value="Guardar cambios" class="btn btn-primary btn-block">
 
                                         </div>
                                         <!-- /.box-body -->
@@ -305,12 +343,6 @@
         allowClear: true
     });
     
-    $('#secretaria').change(function () {
-        $('#direccion').removeAttr('disabled');
-    });
-    $('#direccion').change(function () {
-        $('#unidad').removeAttr('disabled');
-    });
 </script>
 <script>
     var activos_array = [];

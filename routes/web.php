@@ -18,3 +18,4 @@ Route::get('/lista', 'RegistroController@lista_reg')->name('lista');
 Route::post('/save_detalle', 'RegistroController@store');
 Route::delete('/delete_reg/{id}', 'RegistroController@destroy')->name('eliminar');
 Route::get('/{id}/edit', 'RegistroController@edit')->name('editar');
+Route::get('/export-excel', 'RegistroController@excel')->name('excel');

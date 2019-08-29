@@ -192,7 +192,7 @@
                         </div>
                         <!-- /.box-header -->
                         <!-- form start -->          
-                    <form role="form" action="" id="form_detalle">
+                    <form role="form" action="" id="form_detalle" name="form_detalle">
                             <div class="box-body">
                                     
                             <div class="row">
@@ -235,13 +235,13 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="exampleInputPassword1">Caracteristicas <b style="color:red;">*</b></label>
+                                        <label for="exampleInputPassword1">Caracteristicas</label>
                                         <input type="text" class="form-control text-uppercase" name="caracteristicas" id="caracteristicas">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="exampleInputPassword1">Estado</label>
+                                        <label for="exampleInputPassword1">Estado <b style="color:red;">*</b></label>
                                         <select class="form-control" name="estado" id="estado">
                                             <option>Seleccione estado...</option>
                                             <option value="Reparado">Reparado</option>
@@ -311,30 +311,56 @@
 </script>
 <script>
     var activos_array = [];
-    var c =0;
+    var contador =0;
         $('#btn_detalle').click(function (event) {
-            event.preventDefault();
-            obj = {
-                id : c++,
-                servicio: $('#servicio').val(),
-                servicio_t: $('#servicio option:selected').text(),
-                tipo_servicio: $('#tipo_servicio').val(),
-                tipo_servicio_t: $('#tipo_servicio option:selected').text(),
-                serial_gamea: $('#serial_gamea').val(),
-                cod_gamea_p: $('#cod_gamea_p').val(),
-                caracteristicas: $('#caracteristicas').val(),
-                estado: $('#estado').val()
-            };
-
-            activos_array.push(obj);
+            event.preventDefault();            
+                
+                var servicio = $('#servicio').val().trim();
+                var tipo_servicio = $('#tipo_servicio').val().trim();
+                var serial_gamea = $('#serial_gamea').val().trim();
+                var cod_gamea_p = $('#cod_gamea_p').val().trim();
+                var caracteristicas = $('#caracteristicas').val().trim();
+                var estado = $('#estado').val().trim();
             
 
-            var pos = activos_array.indexOf(obj);
-            var tr = '<tr id= '+obj.id+'><td>'+obj.servicio_t+'</td><td>'+obj.tipo_servicio_t+'</td><td><b>Cod:</b> '+obj.cod_gamea_p+'<br><b>S/N:</b> '+obj.serial_gamea+
+            if (servicio.length == 0 || tipo_servicio.length == 0|| estado.length == 0) {
+                $.notify({
+                    icon: 'glyphicon glyphicon-warning-sign',
+                    title: '<b>Error de ingreso de datos</b></br>',
+                    message: ` - Servicio <br>
+                                - Trabajo Realizado <br>
+                                - Estado <br>
+                                No pueden estar vacios
+                            `
+                        },{
+                    type: 'danger'
+                }); 
+            }
+            else{
+                
+                obj = {
+                id : contador++,
+                servicio: $('#servicio').val().trim(),
+                servicio_t: $('#servicio option:selected').text().trim(),
+                tipo_servicio: $('#tipo_servicio').val().trim(),
+                tipo_servicio_t: $('#tipo_servicio option:selected').text().trim(),
+                serial_gamea: $('#serial_gamea').val().trim(),
+                cod_gamea_p: $('#cod_gamea_p').val().trim(),
+                caracteristicas: $('#caracteristicas').val().trim(),
+                estado: $('#estado').val().trim()
+                };
+
+                activos_array.push(obj);                       
+
+                var pos = activos_array.indexOf(obj);
+                var tr = '<tr id= '+obj.id+'><td>'+obj.servicio_t+'</td><td>'+obj.tipo_servicio_t+'</td><td><b>Cod:</b> '+obj.cod_gamea_p+'<br><b>S/N:</b> '+obj.serial_gamea+
                     '</td><td>'+obj.caracteristicas+'</td><td>'+obj.estado+
                     '</td><td><button type="button" onclick="slice('+obj.id+')" class="btn btn-danger">Eliminar</button></td></tr>';
-            $("#cuerpo").append(tr)
-            $("#form_detalle")[0].reset();
+                $("#cuerpo").append(tr)
+                $("#form_detalle")[0].reset();
+            }
+
+            
             console.log(activos_array);
         });
         

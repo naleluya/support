@@ -47,8 +47,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-circle-o"></i> Soporte</a></li>
-            <li><a href="../charts/morris.html"><i class="fa fa-circle-o"></i> Por usuario</a></li>
+            <li><a href="{{  url('excel') }}"><i class="fa fa-circle-o"></i> Soporte</a></li>
+            <li><a href="#"><i class="fa fa-circle-o"></i> Por usuario</a></li>
           </ul>
         </li>        
       </ul>

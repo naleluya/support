@@ -8,6 +8,7 @@ use Illuminate\Validation\Validator;
 //use App\Http\Requests\RegistroUpdateRequest;
 use Illuminate\Support\Collection as Collection;
 use DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 use App\Technician;
 use App\Secretarie;
@@ -17,6 +18,8 @@ use App\Support;
 Use App\Support_detail;
 use App\Asset;
 use App\Categorie;
+
+use App\Exports\RegistroExport;
 
 use function GuzzleHttp\json_decode;
 
@@ -117,7 +120,7 @@ class RegistroController extends Controller
         $categoria = DB::table('categories')->select('*')->get();
         $registro = DB::table('supports')
                         ->join('technicians', 'supports.tec_id', '=', 'technicians.id')
-                        ->leftjoin('secretaries', 'supports.sec_id', '=', 'secretaries.id')
+                        ->join('secretaries', 'supports.sec_id', '=', 'secretaries.id')
                         ->leftjoin('directions', 'supports.dir_id', '=', 'directions.id')
                         ->leftjoin('units', 'supports.uni_id', '=', 'units.id')
                         ->select('*', 'supports.id as id_support', 'technicians.id as id_technician')
@@ -170,12 +173,17 @@ class RegistroController extends Controller
         //
     }
 
+    public function excel(){
+        return Excel::download(new RegistroExport, 'registro.xlsx');
+    }
+
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    
     public function destroy($id)
     {
         $registro = Support::findOrFail($id);

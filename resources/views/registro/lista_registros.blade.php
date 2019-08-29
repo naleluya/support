@@ -29,9 +29,9 @@
                   <tbody>
                     @foreach ($registro as $reg)
                       <tr>
-                        <td>{{ $reg->solicitante }} <br><b>Fecha solicitud:</b>  {{ $reg->fec_solicitud }}</td>
+                        <td>{{ $reg->solicitante }} <br><b>Fecha solicitud:</b>  {{  \Carbon\Carbon::parse($reg->fec_solicitud)->format('d/m/Y') }}</td>
                         <td>{{ $reg->tec_nombres }} {{ $reg->tec_paterno }} {{ $reg->tec_materno }}</td>
-                        <td>{{ $reg->sec_nombre }}<br>{{ $reg->dir_name }}<br>{{ $reg->uni_name }}</td>                        
+                        <td>{{ $reg->sec_name }}<br>{{ $reg->dir_name }}<br>{{ $reg->uni_name }}</td>                        
                         <td>
                           @foreach ($detalle as $det)
                             @if ($det->sup_id == $reg->id_support)
