@@ -70,8 +70,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-8">
-
+                                <div class="col-md-5">
                                     <div class="form-group">
                                         <label for="tecnico">Tecnico <b style="color:red;">*</b></label>
                                         <select class="form-control" name="tecnico" id="tecnico" required>
@@ -83,7 +82,7 @@
                                     </div>
 
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="solicitante">Tipo activo</label>
                                         <select class="form-control" name="tipo_activo" id="tipo_activo">
@@ -92,6 +91,18 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Date <b style="color:red;">*</b></label>
+                                            <div class="input-group date">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" class="form-control pull-right" id="datepicker"
+                                                    name="datepicker" required>
+                                            </div>
+                                        </div>
+                                    </div>   
                             </div>
                             <div class="row">
                                 <div class="col-md-8">
@@ -109,29 +120,10 @@
                                             placeholder="Número de celular">
                                     </div>
                                 </div>
-
+                                
                             </div>
                             <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Date <b style="color:red;">*</b></label>
-                                        <div class="input-group date">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
-                                            </div>
-                                            <input type="text" class="form-control pull-right" id="datepicker"
-                                                name="datepicker" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="solicitante">Codigo GAMEA</label>
-                                        <input type="number" class="form-control pull-right" id="cod_gamea"
-                                            name="cod_gamea">
-                                    </div>
-                                </div>
-                                
+                                                     
                             </div>
                         </div>
                     </form>
@@ -150,8 +142,6 @@
                                                     <tr>
                                                         <th>Servicio</th>
                                                         <th>Trabajo<br>Realizado</th>
-                                                        <th>Serial<br>Codigo GAMEA</th>
-                                                        <th>Caractersiticas</th>
                                                         <th>Estado</th>
                                                         <th>Accion</th>
                                                     </tr>
@@ -216,41 +206,18 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                    <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="solicitante">Serial GAMEA</label>
-                                            <input type="text" class="form-control pull-right" id="serial_gamea"
-                                                name="serial_gamea">
+                                            <label for="exampleInputPassword1">Estado <b style="color:red;">*</b></label>
+                                            <select class="form-control" name="estado" id="estado">
+                                                <option>Seleccione estado...</option>
+                                                <option value="Reparado">Reparado</option>
+                                                <option value="Reemplazo">Reemplazo</option>
+                                                <option value="Dañado">Dañado</option>
+                                                <option value="A garantia">A garantía</option>
+                                            </select>
                                         </div>
                                     </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="exampleInputPassword1">Cod GAMEA (periférico)</label>
-                                        <input type="text" class="form-control pull-right" id="cod_gamea_p"
-                                            name="cod_gamea_p">
-                                            <meta name="csrf-token" content="{{ csrf_token() }}">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="exampleInputPassword1">Caracteristicas</label>
-                                        <input type="text" class="form-control text-uppercase" name="caracteristicas" id="caracteristicas">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="exampleInputPassword1">Estado <b style="color:red;">*</b></label>
-                                        <select class="form-control" name="estado" id="estado">
-                                            <option>Seleccione estado...</option>
-                                            <option value="Reparado">Reparado</option>
-                                            <option value="Reemplazo">Reemplazo</option>
-                                            <option value="Dañado">Dañado</option>
-                                            <option value="A garantia">A garantía</option>
-                                        </select>
-                                    </div>
-                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-3">
@@ -316,10 +283,7 @@
             event.preventDefault();            
                 
                 var servicio = $('#servicio').val().trim();
-                var tipo_servicio = $('#tipo_servicio').val().trim();
-                var serial_gamea = $('#serial_gamea').val().trim();
-                var cod_gamea_p = $('#cod_gamea_p').val().trim();
-                var caracteristicas = $('#caracteristicas').val().trim();
+                var tipo_servicio = $('#tipo_servicio').val().trim();              
                 var estado = $('#estado').val().trim();
             
 
@@ -343,18 +307,14 @@
                 servicio: $('#servicio').val().trim(),
                 servicio_t: $('#servicio option:selected').text().trim(),
                 tipo_servicio: $('#tipo_servicio').val().trim(),
-                tipo_servicio_t: $('#tipo_servicio option:selected').text().trim(),
-                serial_gamea: $('#serial_gamea').val().trim(),
-                cod_gamea_p: $('#cod_gamea_p').val().trim(),
-                caracteristicas: $('#caracteristicas').val().trim(),
+                tipo_servicio_t: $('#tipo_servicio option:selected').text().trim(),        
                 estado: $('#estado').val().trim()
                 };
 
                 activos_array.push(obj);                       
 
                 var pos = activos_array.indexOf(obj);
-                var tr = '<tr id= '+obj.id+'><td>'+obj.servicio_t+'</td><td>'+obj.tipo_servicio_t+'</td><td><b>Cod:</b> '+obj.cod_gamea_p+'<br><b>S/N:</b> '+obj.serial_gamea+
-                    '</td><td>'+obj.caracteristicas+'</td><td>'+obj.estado+
+                var tr = '<tr id= '+obj.id+'><td>'+obj.servicio_t+'</td><td>'+obj.tipo_servicio_t+'</td><td>'+obj.estado+
                     '</td><td><button type="button" onclick="slice('+obj.id+')" class="btn btn-danger">Eliminar</button></td></tr>';
                 $("#cuerpo").append(tr)
                 $("#form_detalle")[0].reset();
@@ -379,7 +339,7 @@
        
         $('#insertar').click(function (event) {
             event.preventDefault();
-             var final ={
+            var final ={
             secretaria: $('#secretaria').val(),
             direccion: $('#direccion').val(),
             unidad: $('#unidad').val(),
@@ -389,7 +349,7 @@
             celular: $('#celular').val(),
             fec_solicitud: $('#datepicker').val(),
             codigo_gamea: $('#cod_gamea').val()
-
+            
             
         };
         console.log(final);
@@ -400,10 +360,10 @@
                 method: "POST",
                 dataType: "json",
                 data: JSON.stringify(final),
-                contentType: "aplication/json; charset=utf-8",                             
+                contentType: "aplication/json; charset=utf-8",
                 success: function(data){
                     if(true)
-                    location.reload();
+                    window.location.href = '{{ url('/') }}';
                     $.notify({message: 'El registro se guardo satisfactoriamente'},
                             { type: 'success'});
                 },

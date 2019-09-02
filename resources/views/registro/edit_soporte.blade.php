@@ -18,7 +18,7 @@
             <div class="alert alert-danger" role="alert">
                 <ul>
                     @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>            
+                        <li>{{ $error }}</li>
                     @endforeach
                 </ul>
             </div>
@@ -35,7 +35,7 @@
                     <!-- form start -->
                    
                         
-                    <form role="form" method="post">
+                    <form role="form" method="post" id="formulario_principal" name="formulario_principal">
                         <div class="box-body">
                             <div class="row">
                                 <div class="col-md-3">
@@ -85,7 +85,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-8">
+                                <div class="col-md-5">
                                     <div class="form-group">
                                         <label for="tecnico">Tecnico <b style="color:red;">*</b></label>
                                         <select class="form-control" name="tecnico" id="tecnico" required>
@@ -101,7 +101,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="solicitante">Tipo activo</label>
                                         <select class="form-control" name="tipo_activo" id="tipo_activo">
@@ -110,6 +110,18 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Date <b style="color:red;">*</b></label>
+                                            <div class="input-group date">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" class="form-control pull-right" id="datepicker"
+                                                    name="datepicker" required value="{{ \Carbon\Carbon::parse($soporte->fec_solicitud)->format('d/m/Y') }}">
+                                            </div>
+                                        </div>
+                                    </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-8">
@@ -129,28 +141,7 @@
                                 </div>
 
                             </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Date <b style="color:red;">*</b></label>
-                                        <div class="input-group date">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
-                                            </div>
-                                            <input type="text" class="form-control pull-right" id="datepicker"
-                                                name="datepicker" required value="{{ \Carbon\Carbon::parse($soporte->fec_solicitud)->format('d/m/Y') }}">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="solicitante">Codigo GAMEA</label>
-                                        <input type="number" class="form-control pull-right" id="cod_gamea"
-                                            name="cod_gamea" value="{{ $soporte->codigo_gamea }}">
-                                    </div>
-                                </div>
-                                
-                            </div>
+                            
                         </div>
                     </form>
                    
@@ -169,8 +160,6 @@
                                                     <tr>
                                                         <th>Servicio</th>
                                                         <th>Trabajo<br>Realizado</th>
-                                                        <th>Serial<br>Codigo GAMEA</th>
-                                                        <th>Caractersiticas</th>
                                                         <th>Estado</th>
                                                         <th>Accion</th>
                                                     </tr>
@@ -180,31 +169,34 @@
                                                     <tr>
                                                         @if ($det->sup_id == $soporte->id)
                                                         @foreach ($categoria as $cat)
-                                                            @if ($cat->id == $det->cat_id)
-                                                            
-                                                                    <td>{{ $cat->cat_nombre }}</td>
-                                                                
+                                                            @if ($cat->id == $det->cat_id)                                                            
+                                                                <td>{{ $cat->cat_nombre }}</td>                                                                
                                                             @endif
                                                         @endforeach
                                                         @foreach ($activos as $act)
                                                             @if ($act->id == $det->asset_id)
                                                             
                                                                 <td>{{ $act->nombre_activo_ser }}</td>
-                                                                <td> <b>Cod: </b> {{ $act->cod_gamea_p }}<br> <b>S/N: </b>{{ $act->serial_gamea }} </td>
                                                             @endif
                                                         @endforeach
-                                                        <td>{{ $det->caracteristicas }}</td>
                                                         <td>{{ $det->estado }}</td>
                                                         @endif
                                                     </tr>
-                                                    @endforeach
-                                                                                                 
+                                                    @endforeach                                                                                                 
                                                 </tbody>
                                                 <tfoot>
                                                     
                                                 </tfoot>
                                             </table>
-                                            <input type="submit" name="insertar" id="insertar" value="Guardar cambios" class="btn btn-primary btn-block">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <input type="submit" name="insertar" id="insertar" value="Guardar cambios" class="btn btn-primary btn-block">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input type="reset" name="cancelar" id="cancelar" value="Cancelar" class="btn btn-danger btn-block" onclick="window.location.href='{{ route('lista') }}'">
+                                                </div>
+                                            </div>
+                                            
 
                                         </div>
                                         <!-- /.box-body -->
@@ -257,46 +249,19 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                    <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="solicitante">Serial GAMEA</label>
-                                            <input type="text" class="form-control pull-right" id="serial_gamea"
-                                                name="serial_gamea">
+                                            <label for="exampleInputPassword1">Estado</label>
+                                            <select class="form-control" name="estado" id="estado">
+                                                <option>Seleccione estado...</option>
+                                                <option value="Reparado">Reparado</option>
+                                                <option value="Reemplazo">Reemplazo</option>
+                                                <option value="Dañado">Dañado</option>
+                                                <option value="A garantia">A garantía</option>
+                                            </select>
                                         </div>
                                     </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="exampleInputPassword1">Cod GAMEA (periférico)</label>
-                                        <input type="text" class="form-control pull-right" id="cod_gamea_p"
-                                            name="cod_gamea_p">
-                                            <meta name="csrf-token" content="{{ csrf_token() }}">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="exampleInputPassword1">Caracteristicas <b style="color:red;">*</b></label>
-                                        <input type="text" class="form-control text-uppercase" name="caracteristicas" id="caracteristicas">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="exampleInputPassword1">Estado</label>
-                                        <select class="form-control" name="estado" id="estado">
-                                            <option>Seleccione estado...</option>
-                                            <option value="Reparado">Reparado</option>
-                                            <option value="Reemplazo">Reemplazo</option>
-                                            <option value="Dañado">Dañado</option>
-                                            <option value="A garantia">A garantía</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3">
-                                </div>
-                            </div>
+                            </div>                            
                         </div>
                         <!-- /.box-body -->
 
@@ -345,96 +310,115 @@
     
 </script>
 <script>
-    var activos_array = [];
-    var c =0;
-        $('#btn_detalle').click(function (event) {
-            event.preventDefault();
-            obj = {
-                id : c++,
-                servicio: $('#servicio').val(),
-                servicio_t: $('#servicio option:selected').text(),
-                tipo_servicio: $('#tipo_servicio').val(),
-                tipo_servicio_t: $('#tipo_servicio option:selected').text(),
-                serial_gamea: $('#serial_gamea').val(),
-                cod_gamea_p: $('#cod_gamea_p').val(),
-                caracteristicas: $('#caracteristicas').val(),
-                estado: $('#estado').val()
-            };
-
-            activos_array.push(obj);
-            
-
-            var pos = activos_array.indexOf(obj);
-            var tr = '<tr id= '+obj.id+'><td>'+obj.servicio_t+'</td><td>'+obj.tipo_servicio_t+'</td><td><b>Cod:</b> '+obj.cod_gamea_p+'<br><b>S/N:</b> '+obj.serial_gamea+
-                    '</td><td>'+obj.caracteristicas+'</td><td>'+obj.estado+
-                    '</td><td><button type="button" onclick="slice('+obj.id+')" class="btn btn-danger">Eliminar</button></td></tr>';
-            $("#cuerpo").append(tr)
-            $("#form_detalle")[0].reset();
-            console.log(activos_array);
-        });
-        
-        function slice(id){
-            //console.log(id);
-            index = activos_array.findIndex(x => x.id ==id);
-            activos_array.splice(id, 1);
-            //eliminamos el la fila de la tabla
-            document.getElementById(id).outerHTML="";
-        }
-
-        $('.delete_item').click(function(){
-            console.log('hola');
-        });
-        
-       
-        $('#insertar').click(function (event) {
-            event.preventDefault();
-             var final ={
-            secretaria: $('#secretaria').val(),
-            direccion: $('#direccion').val(),
-            unidad: $('#unidad').val(),
-            tec_id: $('#tecnico').val(),
-            tipo_activo: $('#tipo_activo').val(),
-            solicitante: $('#solicitante').val(),
-            celular: $('#celular').val(),
-            fec_solicitud: $('#datepicker').val(),
-            codigo_gamea: $('#cod_gamea').val()
-
-            
-        };
-        console.log(final);
-            
-            final.activos = activos_array;
-            $.ajax({
-                url: "{{ url('/save_detalle') }}",
-                method: "POST",
-                dataType: "json",
-                data: JSON.stringify(final),
-                contentType: "aplication/json; charset=utf-8",                             
-                success: function(data){
-                    if(true)
-                    location.reload();
-                    $.notify({message: 'El registro se guardo satisfactoriamente'},
-                            { type: 'success'});
-                },
-                error: function(data){
-                    console.log(data.responseJSON.errors);
-                    var obj=data.responseJSON.errors;
+        var activos_array = [];
+        var contador =0;
+            $('#btn_detalle').click(function (event) {
+                event.preventDefault();            
+                    
+                    var servicio = $('#servicio').val().trim();
+                    var tipo_servicio = $('#tipo_servicio').val().trim();              
+                    var estado = $('#estado').val().trim();
+                
+    
+                if (servicio.length == 0 || tipo_servicio.length == 0|| estado.length == 0) {
                     $.notify({
                         icon: 'glyphicon glyphicon-warning-sign',
                         title: '<b>Error de ingreso de datos</b></br>',
-                        message: `
-                            ${ (obj.secretaria)?obj.secretaria[0]:" " }</br>
-                            ${ (obj.tec_id)?obj.tec_id[0]:" " }</br>
-                            ${ (obj.solicitante)?obj.solicitante[0]:" " }</br>
-                            ${ (obj.celular_sol)?obj.celular_sol[0]:" " }</br>
-                            ${ (obj.fec_solicitud)?obj.fec_solicitud[0]:" " }
-                            `
-                        },{
+                        message: ` - Servicio <br>
+                                    - Trabajo Realizado <br>
+                                    - Estado <br>
+                                    No pueden estar vacios
+                                `
+                            },{
                         type: 'danger'
-                        });      
-                }                
+                    }); 
+                }
+                else{
+                    
+                    obj = {
+                    id : contador++,
+                    servicio: $('#servicio').val().trim(),
+                    servicio_t: $('#servicio option:selected').text().trim(),
+                    tipo_servicio: $('#tipo_servicio').val().trim(),
+                    tipo_servicio_t: $('#tipo_servicio option:selected').text().trim(),        
+                    estado: $('#estado').val().trim()
+                    };
+    
+                    activos_array.push(obj);                       
+    
+                    var pos = activos_array.indexOf(obj);
+                    var tr = '<tr id= '+obj.id+'><td>'+obj.servicio_t+'</td><td>'+obj.tipo_servicio_t+'</td><td>'+obj.estado+
+                        '</td><td><button type="button" onclick="slice('+obj.id+')" class="btn btn-danger">Eliminar</button></td></tr>';
+                    $("#cuerpo").append(tr)
+                    $("#form_detalle")[0].reset();
+                }
+    
+                
+                console.log(activos_array);
             });
-        });   
-</script>
+            
+            function slice(id){
+                //console.log(id);
+                index = activos_array.findIndex(x => x.id ==id);
+                activos_array.splice(id, 1);
+                //eliminamos el la fila de la tabla
+                document.getElementById(id).outerHTML="";
+            }
+    
+            $('.delete_item').click(function(){
+                console.log('hola');
+            });
+            
+           
+            $('#insertar').click(function (event) {
+                event.preventDefault();
+                var final ={
+                secretaria: $('#secretaria').val(),
+                direccion: $('#direccion').val(),
+                unidad: $('#unidad').val(),
+                tec_id: $('#tecnico').val(),
+                tipo_activo: $('#tipo_activo').val(),
+                solicitante: $('#solicitante').val(),
+                celular: $('#celular').val(),
+                fec_solicitud: $('#datepicker').val(),
+                codigo_gamea: $('#cod_gamea').val()
+                
+                
+            };
+            console.log(final);
+                
+                final.activos = activos_array;
+                $.ajax({
+                    url: "{{ url('/save_detalle') }}",
+                    method: "POST",
+                    dataType: "json",
+                    data: JSON.stringify(final),
+                    contentType: "aplication/json; charset=utf-8",
+                    success: function(data){
+                        if(true)
+                        window.location.href = '{{ url('/') }}';
+                        $.notify({message: 'El registro se guardo satisfactoriamente'},
+                                { type: 'success'});
+                    },
+                    error: function(data){
+                        console.log(data.responseJSON.errors);
+                        var obj=data.responseJSON.errors;
+                        $.notify({
+                            icon: 'glyphicon glyphicon-warning-sign',
+                            title: '<b>Error de ingreso de datos</b></br>',
+                            message: `
+                                ${ (obj.secretaria)?obj.secretaria[0]:" " }</br>
+                                ${ (obj.tec_id)?obj.tec_id[0]:" " }</br>
+                                ${ (obj.solicitante)?obj.solicitante[0]:" " }</br>
+                                ${ (obj.celular_sol)?obj.celular_sol[0]:" " }</br>
+                                ${ (obj.fec_solicitud)?obj.fec_solicitud[0]:" " }
+                                `
+                            },{
+                            type: 'danger'
+                            });      
+                    }                
+                });
+            });   
+    </script>
 <script></script>
 @endsection

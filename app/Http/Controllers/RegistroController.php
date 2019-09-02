@@ -81,7 +81,6 @@ class RegistroController extends Controller
             'tec_id' =>  'required',
             'celular' => 'required',
             'fec_solicitud' => 'required',
-            'codigo_gamea' => 'nullable'
         ], $mensaje);
 
         $soporte = new Support;
@@ -92,8 +91,6 @@ class RegistroController extends Controller
         $soporte->uni_id = trim($request->unidad);
         $soporte->tec_id = trim($request->tec_id);
         $soporte->celular_sol = trim($request->celular);
-        $soporte->codigo_gamea = trim($request->codigo_gamea);
-        $soporte->codigo_gamea = ('' == $soporte->codigo_gamea)? "0" : $soporte->codigo_gamea;
         $soporte->save();
         
         $a = count($request->activos);
@@ -101,10 +98,7 @@ class RegistroController extends Controller
             $detalles = new Support_detail;
             $detalles->sup_id = $soporte->id;
             $detalles->cat_id = $request->activos[$i]['servicio'];
-            $detalles->cod_gamea_p = trim($request->activos[$i]['cod_gamea_p']);
             $detalles->asset_id = trim($request->activos[$i]['tipo_servicio']);
-            $detalles->serial_gamea = trim($request->activos[$i]['serial_gamea']);
-            $detalles->caracteristicas = trim(strtoupper($request->activos[$i]['caracteristicas']));
             $detalles->estado = trim($request->activos[$i]['estado']);
             $detalles->save();
         }
