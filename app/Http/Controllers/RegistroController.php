@@ -151,7 +151,7 @@ class RegistroController extends Controller
         $soporte = Support::findOrFail($id);
         $detalles = Support_detail::select('*')->where('sup_id',$id)->get()->all();
         //dd($soporte,$detalles);
-        //dd($categoria);
+        //dd($detalles);
         return view("registro.edit_soporte", compact(['soporte','tecnico','secretaria','direccion','unidad', 'categoria', 'activos', 'detalles']));
     }
 

@@ -170,16 +170,16 @@
                                                         @if ($det->sup_id == $soporte->id)
                                                         @foreach ($categoria as $cat)
                                                             @if ($cat->id == $det->cat_id)                                                            
-                                                                <td>{{ $cat->cat_nombre }}</td>                                                                
+                                                                <td style="visibility: hidden" id="{{ $cat->id }}">{{ $cat->cat_nombre }}</td>                                                                
                                                             @endif
                                                         @endforeach
                                                         @foreach ($activos as $act)
                                                             @if ($act->id == $det->asset_id)
                                                             
-                                                                <td>{{ $act->nombre_activo_ser }}</td>
+                                                                <td style="visibility: hidden" id="{{ $act->id }}">{{ $act->nombre_activo_ser }}</td>
                                                             @endif
                                                         @endforeach
-                                                        <td>{{ $det->estado }}</td>
+                                                        <td style="visibility: hidden">{{ $det->estado }}</td>
                                                         @endif
                                                     </tr>
                                                     @endforeach                                                                                                 
@@ -307,13 +307,41 @@
         placeholder: "Seleccione Servicio...",
         allowClear: true
     });
+    $('#tecnico').select2({
+        placeholder: "Seleccione Tecnico...",
+        allowClear: true
+    });
     
 </script>
 <script>
         var activos_array = [];
         var contador =0;
+            //var nFilas = $("#cuerpo").length;
+            //console.log(nFilas);
+        $( document ).ready(function() {
+            var nFilas = $("#cuerpo tr").length;
+            $('#cuerpo tr').each(function(){
+                obj = {
+                    id : contador++,
+                    servicio: $(this).find("td").eq(0).attr("id"),
+                    servicio_t: $(this).find("td").eq(0).html(),
+                    tipo_servicio_t: $(this).find("td").eq(1).html(),  
+                    tipo_servicio: $(this).find("td").eq(1).atrr("id"),                          
+                    estado: $(this).find("td").eq(2).html()
+                    };
+    
+                    activos_array.push(obj);
+                    var pos = activos_array.indexOf(obj);
+                    var tr = '<tr id= '+obj.id+'><td>'+obj.servicio_t+'</td><td>'+obj.tipo_servicio_t+'</td><td>'+obj.estado+
+                        '</td><td><button type="button" onclick="slice('+obj.id+')" class="btn btn-danger">Quitar</button></td></tr>';
+                    $("#cuerpo").append(tr)
+                    console.log(activos_array, contador, detalle_json);
+            });
+        });
+               
+
             $('#btn_detalle').click(function (event) {
-                event.preventDefault();            
+                event.preventDefault();       
                     
                     var servicio = $('#servicio').val().trim();
                     var tipo_servicio = $('#tipo_servicio').val().trim();              
@@ -348,11 +376,10 @@
     
                     var pos = activos_array.indexOf(obj);
                     var tr = '<tr id= '+obj.id+'><td>'+obj.servicio_t+'</td><td>'+obj.tipo_servicio_t+'</td><td>'+obj.estado+
-                        '</td><td><button type="button" onclick="slice('+obj.id+')" class="btn btn-danger">Eliminar</button></td></tr>';
+                        '</td><td><button type="button" onclick="slice('+obj.id+')" class="btn btn-danger">Quitar</button></td></tr>';
                     $("#cuerpo").append(tr)
                     $("#form_detalle")[0].reset();
-                }
-    
+                }    
                 
                 console.log(activos_array);
             });

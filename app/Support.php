@@ -19,4 +19,5 @@ class Support extends Model
         "updated_at",
         "codigo_gamea"
     ];
+    protected $dateFormat = 'Y-m-d H:i:sO';
 }

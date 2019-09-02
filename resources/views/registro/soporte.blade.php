@@ -74,7 +74,7 @@
                                     <div class="form-group">
                                         <label for="tecnico">Tecnico <b style="color:red;">*</b></label>
                                         <select class="form-control" name="tecnico" id="tecnico" required>
-                                            <option value="">Seleccione un tecnico...</option>
+                                            <option value="" disable selected></option>
                                             @foreach ($tecnicos as $tec)
                                             <option value="{{ $tec->id }}">{{ $tec->tec_nombres }} {{ $tec->tec_paterno }} {{ $tec->tec_materno }}</option>
                                             @endforeach
@@ -266,6 +266,11 @@
     });
     $('#tipo_servicio').select2({
         placeholder: "Seleccione Servicio...",
+        allowClear: true
+    });
+
+    $('#tecnico').select2({
+        placeholder: "Seleccione Tecnico...",
         allowClear: true
     });
     
