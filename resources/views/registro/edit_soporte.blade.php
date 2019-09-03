@@ -316,28 +316,26 @@
 <script>
         var activos_array = [];
         var contador =0;
-            //var nFilas = $("#cuerpo").length;
-            //console.log(nFilas);
-        $( document ).ready(function() {
+            var detalle = {!! json_encode($detalles) !!};
+            console.log(detalle);
+        /*$( document ).ready(function() {
             var nFilas = $("#cuerpo tr").length;
             $('#cuerpo tr').each(function(){
                 obj = {
                     id : contador++,
-                    servicio: $(this).find("td").eq(0).attr("id"),
-                    servicio_t: $(this).find("td").eq(0).html(),
-                    tipo_servicio_t: $(this).find("td").eq(1).html(),  
-                    tipo_servicio: $(this).find("td").eq(1).atrr("id"),                          
+                    servicio: $(this).find("td").eq(0).html(),
+                    tipo_servicio: $(this).find("td").eq(1).html(),  
                     estado: $(this).find("td").eq(2).html()
                     };
     
                     activos_array.push(obj);
                     var pos = activos_array.indexOf(obj);
-                    var tr = '<tr id= '+obj.id+'><td>'+obj.servicio_t+'</td><td>'+obj.tipo_servicio_t+'</td><td>'+obj.estado+
+                    var tr = '<tr id= '+obj.id+'><td>'+obj.servicio+'</td><td>'+obj.tipo_servicio+'</td><td>'+obj.estado+
                         '</td><td><button type="button" onclick="slice('+obj.id+')" class="btn btn-danger">Quitar</button></td></tr>';
                     $("#cuerpo").append(tr)
                     console.log(activos_array, contador, detalle_json);
             });
-        });
+        });*/
                
 
             $('#btn_detalle').click(function (event) {
