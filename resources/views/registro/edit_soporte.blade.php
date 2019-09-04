@@ -165,24 +165,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody id="cuerpo">
-                                                    @foreach ($detalles as $det)
-                                                    <tr>
-                                                        @if ($det->sup_id == $soporte->id)
-                                                        @foreach ($categoria as $cat)
-                                                            @if ($cat->id == $det->cat_id)                                                            
-                                                                <td style="visibility: hidden" id="{{ $cat->id }}">{{ $cat->cat_nombre }}</td>                                                                
-                                                            @endif
-                                                        @endforeach
-                                                        @foreach ($activos as $act)
-                                                            @if ($act->id == $det->asset_id)
-                                                            
-                                                                <td style="visibility: hidden" id="{{ $act->id }}">{{ $act->nombre_activo_ser }}</td>
-                                                            @endif
-                                                        @endforeach
-                                                        <td style="visibility: hidden">{{ $det->estado }}</td>
-                                                        @endif
-                                                    </tr>
-                                                    @endforeach                                                                                                 
+                                                                                                                                                   
                                                 </tbody>
                                                 <tfoot>
                                                     
@@ -317,25 +300,32 @@
         var activos_array = [];
         var contador =0;
             var detalle = {!! json_encode($detalles) !!};
+            var activo_ser = {!! json_encode($activos) !!};
+            var categoria = {!! json_encode($categoria) !!};
             console.log(detalle);
-        /*$( document ).ready(function() {
-            var nFilas = $("#cuerpo tr").length;
-            $('#cuerpo tr').each(function(){
+        $( document ).ready(function() {
+            var tamanio_det = Object.keys(detalle).length;
+            var tamanio_act = Object.keys(activo_ser).length;
+            var tamanio_cat = Object.keys(categoria).length;
+            for (let index = 0; index < tamanio_det; index++) {
                 obj = {
                     id : contador++,
-                    servicio: $(this).find("td").eq(0).html(),
-                    tipo_servicio: $(this).find("td").eq(1).html(),  
-                    estado: $(this).find("td").eq(2).html()
-                    };
-    
-                    activos_array.push(obj);
-                    var pos = activos_array.indexOf(obj);
-                    var tr = '<tr id= '+obj.id+'><td>'+obj.servicio+'</td><td>'+obj.tipo_servicio+'</td><td>'+obj.estado+
+                    servicio: detalle[index].cat_id,
+                    tipo_servicio: detalle[index].asset_id,
+                    estado: detalle[index].estado,
+                };
+
+                serv = $
+                activos_array.push(obj);                       
+                var pos = activos_array.indexOf(obj);
+
+                var tr = '<tr id= '+obj.id+'><td>'+obj.servicio+'</td><td>'+obj.tipo_servicio+'</td><td>'+obj.estado+
                         '</td><td><button type="button" onclick="slice('+obj.id+')" class="btn btn-danger">Quitar</button></td></tr>';
-                    $("#cuerpo").append(tr)
-                    console.log(activos_array, contador, detalle_json);
-            });
-        });*/
+                $("#cuerpo").append(tr)                       
+                
+            }
+            console.log(activos_array);  
+        });
                
 
             $('#btn_detalle').click(function (event) {
