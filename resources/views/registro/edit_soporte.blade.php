@@ -130,6 +130,7 @@
                                         <input type="text" name="solicitante" id="solicitante" class="form-control text-uppercase"
                                             placeholder="Nombre del solicitante" required value="{{ $soporte->solicitante }}">
                                             {{ csrf_field() }}
+                                        <input type="hidden" name="_method" value="PUT">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -173,7 +174,7 @@
                                             </table>
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    <input type="submit" name="insertar" id="insertar" value="Guardar cambios" class="btn btn-primary btn-block">
+                                                    <input type="submit" name="insertar" id="insertar" value="Guardar actualizacion" class="btn btn-primary btn-block">
                                                 </div>
                                                 <div class="col-md-6">
                                                     <input type="reset" name="cancelar" id="cancelar" value="Cancelar" class="btn btn-danger btn-block" onclick="window.location.href='{{ route('lista') }}'">
@@ -299,10 +300,11 @@
 <script>
         var activos_array = [];
         var contador =0;
-            var detalle = {!! json_encode($detalles) !!};
-            var activo_ser = {!! json_encode($activos) !!};
-            var categoria = {!! json_encode($categoria) !!};
-            console.log(detalle);
+        var detalle = {!! json_encode($detalles) !!};
+        var activo_ser = {!! json_encode($activos) !!};
+        var categoria = {!! json_encode($categoria) !!};
+        var soporte = {!! json_encode($soporte) !!};
+            console.log(soporte.id );
         $( document ).ready(function() {
             var tamanio_det = Object.keys(detalle).length;
             var tamanio_act = Object.keys(activo_ser).length;
@@ -315,18 +317,25 @@
                     estado: detalle[index].estado,
                 };
 
-                serv = $
+                var serv = categoria.filter (function (servi) { 
+                    return servi.id === obj.servicio;
+                });
+
+                var acti = activo_ser.filter (function (activ) { 
+                    return activ.id === obj.tipo_servicio; 
+                });
+
+                console.log(serv);
                 activos_array.push(obj);                       
                 var pos = activos_array.indexOf(obj);
 
-                var tr = '<tr id= '+obj.id+'><td>'+obj.servicio+'</td><td>'+obj.tipo_servicio+'</td><td>'+obj.estado+
+                var tr = '<tr id= '+obj.id+'><td>'+serv[0].cat_nombre+'</td><td>'+acti[0].nombre_activo_ser+'</td><td>'+obj.estado+
                         '</td><td><button type="button" onclick="slice('+obj.id+')" class="btn btn-danger">Quitar</button></td></tr>';
                 $("#cuerpo").append(tr)                       
                 
             }
             console.log(activos_array);  
-        });
-               
+        });               
 
             $('#btn_detalle').click(function (event) {
                 event.preventDefault();       
@@ -381,7 +390,6 @@
             }
     
             $('.delete_item').click(function(){
-                console.log('hola');
             });
             
            
@@ -396,22 +404,21 @@
                 solicitante: $('#solicitante').val(),
                 celular: $('#celular').val(),
                 fec_solicitud: $('#datepicker').val(),
-                codigo_gamea: $('#cod_gamea').val()
-                
+                codigo_gamea: $('#cod_gamea').val()                
                 
             };
             console.log(final);
                 
                 final.activos = activos_array;
                 $.ajax({
-                    url: "{{ url('/save_detalle') }}",
+                    url: "{{ url('/save_detalle/"+ soporte.id +"') }}",
                     method: "POST",
                     dataType: "json",
                     data: JSON.stringify(final),
                     contentType: "aplication/json; charset=utf-8",
                     success: function(data){
                         if(true)
-                        window.location.href = '{{ url('/') }}';
+                        window.location.href = '{{ url('lista') }}';
                         $.notify({message: 'El registro se guardo satisfactoriamente'},
                                 { type: 'success'});
                     },

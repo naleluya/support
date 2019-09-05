@@ -165,6 +165,7 @@ class RegistroController extends Controller
     public function update(Request $request, $id)
     {
         //
+        dd($id);
     }
 
     public function excel(){

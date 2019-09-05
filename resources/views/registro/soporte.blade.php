@@ -32,7 +32,7 @@
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
-                    <form role="form" method="post">
+                    <form role="form" method="post" id="formulario_soporte">
                         <div class="box-body">
                             <div class="row">
                                 <div class="col-md-3">
@@ -323,6 +323,7 @@
                     '</td><td><button type="button" onclick="slice('+obj.id+')" class="btn btn-danger">Eliminar</button></td></tr>';
                 $("#cuerpo").append(tr)
                 $("#form_detalle")[0].reset();
+                $("#tipo_servicio").val('').trigger('change');
             }
 
             
@@ -368,7 +369,13 @@
                 contentType: "aplication/json; charset=utf-8",
                 success: function(data){
                     if(true)
-                    window.location.href = '{{ url('/') }}';
+
+                    document.getElementById("formulario_soporte").reset();
+                    $("#secretaria").val('').trigger('change');
+                    $("#direccion").val('').attr('disabled','disabled').trigger('change');
+                    $("#unidad").val('').attr('disabled','disabled').trigger('change');
+                    $("#tecnico").val('').trigger('change');
+                    $("#form_detalle")[0].reset();
                     $.notify({message: 'El registro se guardo satisfactoriamente'},
                             { type: 'success'});
                 },
