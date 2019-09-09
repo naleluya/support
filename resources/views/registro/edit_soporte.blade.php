@@ -130,7 +130,7 @@
                                         <input type="text" name="solicitante" id="solicitante" class="form-control text-uppercase"
                                             placeholder="Nombre del solicitante" required value="{{ $soporte->solicitante }}">
                                             {{ csrf_field() }}
-                                        <input type="hidden" name="_method" value="PUT">
+                                        <input type="hidden" id="id" name="id" value="{{ $soporte->id_support }}">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -142,7 +142,14 @@
                                 </div>
 
                             </div>
-                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="submit" name="actualizar" id="actualizar" value="Guardar actualizacion" class="btn btn-primary btn-block">
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="reset" name="cancelar" id="cancelar" value="Cancelar" class="btn btn-danger btn-block" onclick="window.location.href='{{ route('lista') }}'">
+                                </div>
+                            </div>
                         </div>
                     </form>
                    
@@ -162,26 +169,16 @@
                                                         <th>Servicio</th>
                                                         <th>Trabajo<br>Realizado</th>
                                                         <th>Estado</th>
-                                                        <th>Accion</th>
+                                                        
                                                     </tr>
                                                 </thead>
                                                 <tbody id="cuerpo">
-                                                                                                                                                   
+
                                                 </tbody>
                                                 <tfoot>
                                                     
                                                 </tfoot>
-                                            </table>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <input type="submit" name="insertar" id="insertar" value="Guardar actualizacion" class="btn btn-primary btn-block">
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <input type="reset" name="cancelar" id="cancelar" value="Cancelar" class="btn btn-danger btn-block" onclick="window.location.href='{{ route('lista') }}'">
-                                                </div>
-                                            </div>
-                                            
-
+                                            </table>                                            
                                         </div>
                                         <!-- /.box-body -->
                                     </div>
@@ -315,6 +312,7 @@
                     servicio: detalle[index].cat_id,
                     tipo_servicio: detalle[index].asset_id,
                     estado: detalle[index].estado,
+                    id_det : detalle[index].id,
                 };
 
                 var serv = categoria.filter (function (servi) { 
@@ -325,16 +323,16 @@
                     return activ.id === obj.tipo_servicio; 
                 });
 
-                console.log(serv);
+                //console.log(obj.id_det);
                 activos_array.push(obj);                       
                 var pos = activos_array.indexOf(obj);
 
                 var tr = '<tr id= '+obj.id+'><td>'+serv[0].cat_nombre+'</td><td>'+acti[0].nombre_activo_ser+'</td><td>'+obj.estado+
-                        '</td><td><button type="button" onclick="slice('+obj.id+')" class="btn btn-danger">Quitar</button></td></tr>';
+                        '</td></tr>';
                 $("#cuerpo").append(tr)                       
                 
             }
-            console.log(activos_array);  
+            //console.log(activos_array);  
         });               
 
             $('#btn_detalle').click(function (event) {
@@ -352,7 +350,7 @@
                         message: ` - Servicio <br>
                                     - Trabajo Realizado <br>
                                     - Estado <br>
-                                    No pueden estar vacios
+                                    ¡No pueden estar vacios!
                                 `
                             },{
                         type: 'danger'
@@ -373,7 +371,7 @@
     
                     var pos = activos_array.indexOf(obj);
                     var tr = '<tr id= '+obj.id+'><td>'+obj.servicio_t+'</td><td>'+obj.tipo_servicio_t+'</td><td>'+obj.estado+
-                        '</td><td><button type="button" onclick="slice('+obj.id+')" class="btn btn-danger">Quitar</button></td></tr>';
+                        '</td></tr>';
                     $("#cuerpo").append(tr)
                     $("#form_detalle")[0].reset();
                 }    
@@ -381,8 +379,27 @@
                 console.log(activos_array);
             });
             
+            function slice_db(id){
+                //index = activos_array.findIndex(x => x.id ==id);
+                //activos_array.splice(id, 1);
+                //eliminamos el la fila de la tabla
+                $.ajax({
+                    url: "{{ url('eliminar_det', "+ id +") }}" ,
+                    type: "DELETE",
+                    dataType: "JSON",
+                    success: function(result){
+                        alert ('el archivo SI fue eliminado');
+                            console.log(activos_array);    
+                    },
+                    error: function(result){
+                        alert("El archivo no fue eliminado ");
+                            console.log(activos_array);
+                    }
+                });
+                //document.getElementById(id).outerHTML="";
+            }
+
             function slice(id){
-                //console.log(id);
                 index = activos_array.findIndex(x => x.id ==id);
                 activos_array.splice(id, 1);
                 //eliminamos el la fila de la tabla
@@ -393,9 +410,10 @@
             });
             
            
-            $('#insertar').click(function (event) {
+            $('#actualizar').click(function (event) {
                 event.preventDefault();
                 var final ={
+                id: soporte.id,    
                 secretaria: $('#secretaria').val(),
                 direccion: $('#direccion').val(),
                 unidad: $('#unidad').val(),
@@ -405,21 +423,20 @@
                 celular: $('#celular').val(),
                 fec_solicitud: $('#datepicker').val(),
                 codigo_gamea: $('#cod_gamea').val()                
-                
-            };
-            console.log(final);
+                };
+                console.log(final);
                 
                 final.activos = activos_array;
                 $.ajax({
-                    url: "{{ url('/save_detalle/"+ soporte.id +"') }}",
+                    url: "{{ url('/actualizacion') }}",
                     method: "POST",
                     dataType: "json",
                     data: JSON.stringify(final),
                     contentType: "aplication/json; charset=utf-8",
                     success: function(data){
                         if(true)
-                        window.location.href = '{{ url('lista') }}';
-                        $.notify({message: 'El registro se guardo satisfactoriamente'},
+                        window.location.href = "{{ url('/lista') }}";
+                        $.notify({message: 'El registro se actualizo satisfactoriamente'},
                                 { type: 'success'});
                     },
                     error: function(data){

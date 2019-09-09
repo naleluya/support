@@ -162,14 +162,53 @@ class RegistroController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
-        dd($id);
+        $mensaje=[
+            "solicitante.required" => 'El campo Solicitante es requerido',
+            "fec_solicitud.required" => 'El campo Fecha de solicitud es requerido ',
+            "celular.required" => 'El campo Celular  es requerido',
+            "tec_id.required" => 'El campo Tecnico es requerido',
+            "secretaria.required" => 'El campo Secretaría es requerido',            
+        ];
+        $request->validate([
+            'solicitante' => 'required',
+            'secretaria' => 'required',
+            'tec_id' =>  'required',
+            'celular' => 'required',
+            'fec_solicitud' => 'required',
+        ], $mensaje);
+        
+        $soporte = Support::find($request->id);
+        $soporte->solicitante = trim(strtoupper($request->solicitante));
+        $soporte->fec_solicitud = $request->fec_solicitud;
+        $soporte->sec_id = trim($request->secretaria);
+        $soporte->dir_id = trim($request->direccion);
+        $soporte->uni_id = trim($request->unidad);
+        $soporte->tec_id = trim($request->tec_id);
+        $soporte->celular_sol = trim($request->celular);
+        $soporte->save();
+
+        return response()->json($soporte);
     }
 
     public function excel(){
         return Excel::download(new RegistroExport, 'registro.xlsx');
+    }
+
+    public function reportes(){
+        $tecnicos = Technician::all();
+        $secretarias = Secretarie::all();
+        $direcciones = Direction::all();
+        $unidades = Unit::all();
+        $soportes = Support::all();
+        $categorias = Categorie::all();
+        $activos = Asset::all();
+        $detalles = Support_detail::all();
+        //dd($detalles);
+        return view("registro.reporte",compact(['tecnicos','secretarias', 'direcciones','unidades', 'soportes', 'categorias', 'activos', 'detalles']));
+
     }
 
     /**
@@ -179,12 +218,22 @@ class RegistroController extends Controller
      * @return \Illuminate\Http\Response
      */
     
-    public function destroy($id)
+    public function destruir_detalle($id)
+    {
+        //
+        $detalles = Support_detail::find($id);
+        
+        $detalles->delete();
+
+        return response()->json(['message' => 'Articulo Eliminado']);
+    }
+
+     public function destroy($id)
     {
         $registro = Support::findOrFail($id);
-        //$detalle = DB::table('support_details')->where('sup_id', $id)->get();
+        //$detalle = Support_detail::where('sup_id',"=", $id)->delete();
         $registro->delete();
-        
+        //$detalle->delete(); 
 
         return redirect("/lista");
     }
